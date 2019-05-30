@@ -1,0 +1,5 @@
+
+**/.vs
+
+practice/projects/**/Debug
+practice/projects/**/Release
