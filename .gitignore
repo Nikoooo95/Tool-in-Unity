@@ -1,5 +1,10 @@
 
 **/.vs
 
-practice/projects/**/Debug
-practice/projects/**/Release
+**/**/Debug
+**/**/Release
+
+**/Library
+**/Logs
+**/obj
+**/Packages
