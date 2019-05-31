@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\..\Desktop\Programación Gráfica - Sergio Alonso\C#-C++\Dll1\Dll1\SimplexNoise.cpp">
+    <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\Desktop\Programación Gráfica - Sergio Alonso\C#-C++\Dll1\Dll1\clike.h">
+    <ClInclude Include="..\..\..\code\headers\clike.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\Desktop\Programación Gráfica - Sergio Alonso\C#-C++\Dll1\Dll1\SimplexNoise.h">
+    <ClInclude Include="..\..\..\code\headers\SimplexNoise.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
