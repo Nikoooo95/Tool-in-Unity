@@ -10,4 +10,5 @@ public class Test : MonoBehaviour
         SimplexNoise noise = new SimplexNoise();
         GetComponent<Renderer>().material.mainTexture = noise.CreateHeightmap(1024);
     }
+
 }

@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "stdafx.h"
 #include "ProcGen.h"
 #include <algorithm>
 #include <ctime>
