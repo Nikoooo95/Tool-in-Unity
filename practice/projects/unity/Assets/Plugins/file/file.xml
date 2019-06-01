@@ -1,6 +1,8 @@
-<xmlGonic>
-		<model name="Model_1" height="20">
+<?xml version="1.0" encoding="utf-8"?>
+<gonic>
 	<layer name="Layer_1">
+		<model name="Model_1" height="20">
+	
 			<vertex>
 				<v>0,0</v>
 				<v>0,1</v>
@@ -56,4 +58,4 @@
 			<color>123, 255, 0</color>
 		</model>
 	</layer>
-</xmlGonic>
+</gonic>

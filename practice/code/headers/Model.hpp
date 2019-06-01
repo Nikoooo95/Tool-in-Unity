@@ -1,14 +1,22 @@
 #ifndef MODEL_HEADER
 #define MODEL_HEADER
 #include <string>
-
+#include <vector>
+#include "Vertex2D.hpp"
+namespace tool {
 	class Model {
+	private:
+		std::string name;
+		
 	public:
-		Model(){}
+		Model(std::string _name): name(_name) {}
 
-	public:
-		double getString(std::string path) { return 4.0; }
+	protected:
+		//virtual void addVertex();
+
 	};
+}
+	
 
 
 #endif // !MODEL_HEADER

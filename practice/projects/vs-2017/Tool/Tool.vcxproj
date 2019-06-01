@@ -19,14 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\code\sources\Gonic.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Layer.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model.cpp" />
     <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Tool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h" />
+    <ClInclude Include="..\..\..\code\headers\Gonic.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Layer.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Model2D.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Model3D.hpp" />
     <ClInclude Include="..\..\..\code\headers\SimplexNoise.h" />
     <ClInclude Include="..\..\..\code\headers\stdafx.h" />
+    <ClInclude Include="..\..\..\code\headers\Tool.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Vertex.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Vertex2D.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Vertex3D.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="..\..\unity\Assets\file.xml" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -128,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>..\..\..\code\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\code\headers;..\..\..\libraries\rapid_xml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

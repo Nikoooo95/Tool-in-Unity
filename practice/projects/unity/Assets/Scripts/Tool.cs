@@ -1,36 +1,48 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using UnityEngine;
+using System.Text;
 
-public class Tool : EditorWindow
+public unsafe class Tool
 {
+    #region Native
+    struct NativeTool { }
 
-    string path = "../file.maravilloso";
-    bool optionalSettings;
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern NativeTool* createTool();
 
-    Color color;
-    float size = 1;
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern bool parseFile(NativeTool* tool, string path);
 
-    [MenuItem("Window/Room Generator")]
-    static void Init()
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern IntPtr getLayer(NativeTool* tool);
+
+
+    #endregion
+
+    NativeTool* nativePointer;
+
+    #region API friendly
+    public Tool(string path)
     {
-        Tool tool = (Tool)EditorWindow.GetWindow(typeof(Tool));
-        tool.Show();
+        nativePointer = createTool();
+        Debug.Log("Parseando...");
+        var ptr = parseFile(nativePointer, path);
+        
+
+        Debug.Log(ptr);
+    
     }
 
-    private void OnGUI()
+    public string getLayerName()
     {
-        GUILayout.Label("Base Settings", EditorStyles.boldLabel);
-        path = EditorGUILayout.TextField("Path", path);
-
-        optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
-        color = EditorGUILayout.ColorField("Color", color);
-        size = EditorGUILayout.Slider("Size", size, 0.0f, 5.0f);
-        EditorGUILayout.EndToggleGroup();
-
-        if(GUILayout.Button("Read File"))
-        {
-            Model model = new Model(path);
-        }
+        var ptr = getLayer(nativePointer);
+         return Marshal.PtrToStringAnsi(ptr);
+        //return "to bien";
     }
+
+  
+    #endregion
 }
-
