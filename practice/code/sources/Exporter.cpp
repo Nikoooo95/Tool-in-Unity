@@ -5,48 +5,70 @@
 #include "Exporter.h"
 
 Exporter::Exporter()
+	:mesh_transform(Transform())
 {
-	
+	path = "";
+	log = "";
 }
 
-Exporter::~Exporter()
+bool Exporter::export_obj(std::string & path)
 {
-	
-}
+	set_path(path);
 
-void Exporter::set_data(Vector3f new_data)
-{
-	data = new_data;
-}
-
-Vector3f Exporter::get_data()
-{
-	return data;
-}
-
-bool Exporter::export_obj(const char path[])
-{
-	
+	//.-.-.-.-.-.-.-.-.-.-.-.-.-
 
 	return true;
 }
 
-const char* Exporter::get_path() const
+const char * Exporter::get_log()
 {
-	return path.c_str();
+	return string_to_char(log);
 }
 
-void Exporter::set_vertex(Vector3f vertex)
+const char * Exporter::get_path()
 {
-	this->vertex = vertex;
+	return string_to_char(path);
 }
 
-void Exporter::set_normals(Vector3f normals)
+void Exporter::set_path(const std::string & path)
 {
-	this->normals = normals;
+	this->path = path;
 }
 
-void Exporter::set_texcoord(Vector3f texcoord)
+void Exporter::set_vertex(Vector3f v[])
 {
-	this->texcoord = texcoord;
+	size_t size = sizeof(v) & sizeof(v[0]);
+
+	vertex.clear();
+	std::vector<Vector3f> vector(v, v + size);
+	
+	vertex = vector;
+
+}
+
+void Exporter::set_normals(Vector3f * normals)
+{
+	//this->normals = normals;
+}
+
+void Exporter::set_texcoord(Vector3f * texcoord)
+{
+	//this->texcoord = texcoord;
+}
+
+
+void Exporter::set_transform(Vector3f position, Vector3f rotation, Vector3f scale)
+{
+	mesh_transform.set(position, rotation, scale);
+}
+
+const char * Exporter::string_to_char(const std::string & s)
+{
+	int length_str = s.length() + 1;
+	char* temp = new char[length_str];
+	const char * str = new char[length_str];
+	strcpy_s(temp, length_str, path.c_str());
+	str = temp;
+
+	return str;
 }

@@ -27,6 +27,9 @@
     <ClInclude Include="..\..\code\headers\Vector3f.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\code\headers\Transform.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\code\sources\dllmain.cpp">

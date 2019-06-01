@@ -10,11 +10,16 @@ public class Test : MonoBehaviour
         SimplexNoise noise = new SimplexNoise();
         GetComponent<Renderer>().material.mainTexture = noise.CreateHeightmap(1024);
 
-        Exporter ex = new Exporter();
-        Vector3 c = new Vector3(2f, 4f, 6f);
-        ex.SetData(c);
-        Debug.Log("Numero de mierda: " + ex.GetData());
+        Vector3[] c = new Vector3[3];
+        for(int i = 0; i < c.Length; i++)
+        {
+            c[i].x = 2;
+            c[i].y = 3;
+            c[i].z = 4;
+        }
 
-        Debug.Log("otro: " + ex.GetPath());
+        Exporter exp = new Exporter();
+        exp.SetVertex(c);
+        Debug.Log("jejej: " + exp.GetSize());
     }
 }
