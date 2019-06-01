@@ -11,7 +11,10 @@ public class Test : MonoBehaviour
         GetComponent<Renderer>().material.mainTexture = noise.CreateHeightmap(1024);
 
         Exporter ex = new Exporter();
-        int d = ex.GetData();
-        Debug.Log("Numero de mierda: " + d);
+        Vector3 c = new Vector3(2f, 4f, 6f);
+        ex.SetData(c);
+        Debug.Log("Numero de mierda: " + ex.GetData());
+
+        Debug.Log("otro: " + ex.GetPath());
     }
 }
