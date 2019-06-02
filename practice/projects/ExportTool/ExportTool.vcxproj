@@ -20,16 +20,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\code\headers\Exporter.h" />
+    <ClInclude Include="..\..\code\headers\Mesh.h" />
     <ClInclude Include="..\..\code\headers\stdafx.h" />
     <ClInclude Include="..\..\code\headers\targetver.h" />
     <ClInclude Include="..\..\code\headers\Transform.h" />
+    <ClInclude Include="..\..\code\headers\Vector2f.h" />
     <ClInclude Include="..\..\code\headers\Vector3f.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\code\sources\dllmain.cpp" />
     <ClCompile Include="..\..\code\sources\Exporter.cpp" />
     <ClCompile Include="..\..\code\sources\ExportTool.cpp" />
+    <ClCompile Include="..\..\code\sources\Mesh.cpp" />
     <ClCompile Include="..\..\code\sources\stdafx.cpp" />
+    <ClCompile Include="..\..\code\sources\Vector2f.cpp" />
     <ClCompile Include="..\..\code\sources\Vector3f.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Vector3f.h"
-#include "Transform.h"
+#include "Mesh.h"
+
 #include <string>
 #include <vector>
 #include <algorithm>
@@ -9,18 +9,16 @@
 
 #include <stdio.h>
 
-using namespace mathexp;
 
 class Exporter
 {
 private:
+	typedef std::shared_ptr<Mesh> sh_Mesh;
+
 	std::string path;
 	std::string log;
 
-	std::vector<Vector3f> vertex;
-	std::vector<Vector3f> normals;
-	std::vector<Vector3f> texcoord;
-	Transform mesh_transform;
+	std::vector<sh_Mesh> meshes;
 
 public:
 	Exporter();
@@ -31,19 +29,19 @@ public:
 
 	bool export_obj(std::string & path);
 
-	const char * get_log();
 	const char * get_path();
 	void set_path(const std::string & path);
 
-	void set_vertex(Vector3f v []);
-	void set_normals(Vector3f * normals);
-	void set_texcoord(Vector3f * texcoord);
+	void add_mesh(Vector3f position, Vector3f rotation, Vector3f scale, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv);
+	bool set_mesh_transform(int index, Vector3f position, Vector3f rotation, Vector3f scale);
+	bool set_mesh_by_index(int index, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv);
+	void set_meshes_count(int size);
 
-	int get_size() { return vertex.size(); }
-
-	void set_transform(Vector3f position, Vector3f rotation, Vector3f scale);
+	std::string & get_log() { return log; }
 
 private:
+
+	bool generate_file();
 
 	const char * string_to_char(const std::string & s);
 };

@@ -5,7 +5,6 @@
 #include "Exporter.h"
 
 Exporter::Exporter()
-	:mesh_transform(Transform())
 {
 	path = "";
 	log = "";
@@ -15,14 +14,16 @@ bool Exporter::export_obj(std::string & path)
 {
 	set_path(path);
 
-	//.-.-.-.-.-.-.-.-.-.-.-.-.-
+	if (!generate_file())
+	{
+		for (auto & ms : meshes)
+		{
+			log += ms->get_log();
+		}
+		return false;
+	}
 
 	return true;
-}
-
-const char * Exporter::get_log()
-{
-	return string_to_char(log);
 }
 
 const char * Exporter::get_path()
@@ -35,31 +36,46 @@ void Exporter::set_path(const std::string & path)
 	this->path = path;
 }
 
-void Exporter::set_vertex(Vector3f v[])
+void Exporter::add_mesh(Vector3f position, Vector3f rotation, Vector3f scale, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv)
 {
-	size_t size = sizeof(v) & sizeof(v[0]);
+	std::shared_ptr<Mesh> new_mesh;
 
-	vertex.clear();
-	std::vector<Vector3f> vector(v, v + size);
+	new_mesh->set_transform(position, rotation, scale);
+	new_mesh->set_vertex(vertex, size_v);
+	new_mesh->set_normals(normals, size_n);
+	new_mesh->set_texcoord(uvs, size_uv);
+
+	meshes.push_back(new_mesh);
+}
+
+bool Exporter::set_mesh_transform(int index, Vector3f position, Vector3f rotation, Vector3f scale)
+{
+	if( index >= meshes.size()) return false;
+
+	meshes[index]->set_transform(position, rotation, scale);
+}
+
+bool Exporter::set_mesh_by_index(int index, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv)
+{
+	if (index >= meshes.size()) return false;
+
 	
-	vertex = vector;
+	meshes[index]->set_vertex(vertex, size_v);
+	meshes[index]->set_normals(normals, size_n);
+	meshes[index]->set_texcoord(uvs, size_uv);
 
+	return true;
 }
 
-void Exporter::set_normals(Vector3f * normals)
+void Exporter::set_meshes_count(int size)
 {
-	//this->normals = normals;
+	meshes.clear();
+	meshes.resize(size);
 }
 
-void Exporter::set_texcoord(Vector3f * texcoord)
+bool Exporter::generate_file()
 {
-	//this->texcoord = texcoord;
-}
-
-
-void Exporter::set_transform(Vector3f position, Vector3f rotation, Vector3f scale)
-{
-	mesh_transform.set(position, rotation, scale);
+	return false;
 }
 
 const char * Exporter::string_to_char(const std::string & s)

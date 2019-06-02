@@ -33,7 +33,7 @@ const char* get_path(Exporter * exporter)
 extern "C" __declspec(dllexport)
 const char* get_log(Exporter * exporter)
 {
-	return exporter->get_log();
+	return exporter->get_log().c_str();
 }
 
 extern "C" __declspec(dllexport)
@@ -44,21 +44,21 @@ void set_path(Exporter * exporter, char * path)
 }
 
 extern "C" __declspec(dllexport)
-void set_mesh_transform(Exporter * exporter, Vector3f pos, Vector3f rot, Vector3f scl)
+void set_mesh_transform(Exporter * exporter, int index, Vector3f position, Vector3f rotation, Vector3f scale)
 {
-	exporter->set_transform(pos, rot, scl);
+	exporter->set_mesh_transform(index, position, rotation, scale);
 }
 
 extern "C" __declspec(dllexport)
-void set_vertex(Exporter * exporter, Vector3f v[])
+bool set_mesh_by_index(Exporter * exporter, int index, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv)
 {
-	exporter->set_vertex(v);
+	return exporter->set_mesh_by_index(index, vertex, normals, uvs, size_v, size_n, size_uv);
 }
 
 extern "C" __declspec(dllexport)
-int get_size(Exporter * exporter)
+void set_meshes_count(Exporter * exporter, int size)
 {
-	return exporter->get_size();
+	exporter->set_meshes_count(size);
 }
 
 

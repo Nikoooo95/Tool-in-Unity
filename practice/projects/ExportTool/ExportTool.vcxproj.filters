@@ -30,6 +30,12 @@
     <ClInclude Include="..\..\code\headers\Transform.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\code\headers\Vector2f.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\code\headers\Mesh.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\code\sources\dllmain.cpp">
@@ -45,6 +51,12 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\code\sources\Vector3f.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\sources\Vector2f.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\code\sources\Mesh.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
