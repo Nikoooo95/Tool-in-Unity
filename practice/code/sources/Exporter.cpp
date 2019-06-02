@@ -26,7 +26,7 @@ bool Exporter::export_obj(std::string & path)
 	return true;
 }
 
-const char * Exporter::get_path()
+const std::string & Exporter::get_path()
 {
 	return string_to_char(path);
 }
@@ -73,9 +73,38 @@ void Exporter::set_meshes_count(int size)
 	meshes.resize(size);
 }
 
+bool Exporter::set_mesh_submeshes_count(int index, int size)
+{
+	if (index >= meshes.size()) return false;
+
+	meshes[index]->set_submeshes_size(size);
+	return true;
+}
+
+bool Exporter::set_submesh_triangles(int index, int submesh, int triangles[], int size)
+{
+	if (index >= meshes.size()) return false;
+
+	return meshes[index]->set_triangles(submesh, triangles, size);
+}
+
 bool Exporter::generate_file()
 {
-	return false;
+	int last_index = 0;
+
+	std::string file = "";
+
+	for (auto & ms : meshes)
+	{
+		file += ms->export_mesh(last_index);
+		last_index += ms->get_vertex_count();
+	}
+
+	if (file == "") return false;
+
+	//Generar archivu
+
+	return true;
 }
 
 const char * Exporter::string_to_char(const std::string & s)

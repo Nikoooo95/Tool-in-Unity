@@ -28,6 +28,12 @@ namespace mathexp
 
 		Vector3f operator *(const Vector3f&);
 
+		Vector3f operator+(const Vector3f&);
+
+		Vector3f& operator+=(const Vector3f&);
+
+		Vector3f normalized();
+
 		//Se necesita quaternion
 		//Vector3f rotate_around_point(Vector3f pivot, Vector3f point, )
 

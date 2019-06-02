@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "Vector3f.h"
 
+#include <cmath>
+
 namespace mathexp
 {
 	Vector3f::Vector3f(float x, float y, float z)
@@ -36,6 +38,23 @@ namespace mathexp
 	Vector3f Vector3f::operator *(const Vector3f& b)
 	{
 		return Vector3f{ x * b.x, y * b.y ,z * b.z };
+	}
+
+	Vector3f Vector3f::operator+(const Vector3f & b)
+	{
+		return Vector3f{ x + b.x, y + b.y, z + b.z };
+	}
+
+	Vector3f & Vector3f::operator+=(const Vector3f & b)
+	{
+		*this = *this + b;
+		return *this;
+	}
+
+	Vector3f Vector3f::normalized()
+	{
+		float module = std::sqrtf(x*x + y * y);
+		return Vector3f(x / module, y / module);
 	}
 
 	Vector3f Vector3f::multiply(Vector3f a, Vector3f b)
