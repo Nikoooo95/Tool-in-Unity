@@ -19,14 +19,14 @@ public unsafe class Exporter
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern bool export_obj(NativeExporter* ptr, string path);
 
-    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void set_vertex(NativeExporter* ptr, Vector3 [] v, int size);
+    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    //private static extern void set_vertex(NativeExporter* ptr, Vector3[] v, int size);
 
-    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void set_normals(NativeExporter* ptr, Vector3[] n, int size);
+    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    //private static extern void set_normals(NativeExporter* ptr, Vector3[] n, int size);
 
-    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void set_texcoord(NativeExporter* ptr, Vector2[] tc, int size);
+    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    //private static extern void set_texcoord(NativeExporter* ptr, Vector2[] tc, int size);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr get_path(NativeExporter* ptr);
@@ -34,11 +34,24 @@ public unsafe class Exporter
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr get_log(NativeExporter* ptr);
 
+    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    //private static extern int get_size(NativeExporter* ptr);
+
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern void set_mesh_transform(NativeExporter* ptr, Vector3 position, Vector3 rotation, Vector3 scale);
+    private static extern bool set_mesh_transform(NativeExporter* ptr, int index, Vector3 position, Vector3 rotation, Vector3 scale);
+
+    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern bool set_mesh_by_index(NativeExporter* ptr, int index, Vector3[] vertex, Vector3[] normals, Vector2[] uvs, int size_v, int size_n, int size_uv);
+
+    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern bool set_meshes_count(NativeExporter* ptr, int size);
+
+    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern bool set_mesh_submeshes_count(NativeExporter* ptr, int index, int size);
+
+    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern bool set_submesh_triangles(NativeExporter* ptr, int index, int submesh, int[] triangles, int size);
     
-    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int get_size(NativeExporter* ptr);
 
     #endregion
 
@@ -91,22 +104,30 @@ public unsafe class Exporter
         }
         //------------------------------------------------------------------------
 
-        for(int i = 0; i < meshes.Length; ++i)
+        set_meshes_count(nativeExporter, meshes.Length);
+        for (int i = 0; i < meshes.Length; ++i)
         {
             string name = meshes[i].gameObject.name;
             MeshRenderer renderer = meshes[i].gameObject.GetComponent<MeshRenderer>();
 
+            if (!set_mesh_transform(nativeExporter, i, meshes[i].transform.position, meshes[i].transform.rotation.eulerAngles, meshes[i].transform.lossyScale))
+                return false;
+            if(!set_mesh_by_index(nativeExporter, i, meshes[i].sharedMesh.vertices, meshes[i].sharedMesh.normals, meshes[i].sharedMesh.uv, meshes[i].sharedMesh.vertices.Length, meshes[i].sharedMesh.normals.Length, meshes[i].sharedMesh.uv.Length))
+                return false;
+           
+            if(!set_mesh_submeshes_count(nativeExporter, i, meshes[i].sharedMesh.subMeshCount))
+                return false;
 
-            set_vertex(nativeExporter, meshes[i].sharedMesh.vertices, meshes[i].sharedMesh.vertices.Length);
-            set_normals(nativeExporter, meshes[i].sharedMesh.normals, meshes[i].sharedMesh.normals.Length);
-            set_texcoord(nativeExporter, meshes[i].sharedMesh.uv, meshes[i].sharedMesh.uv.Length);
-
-            
-
+            for (int j = 0; j < meshes[i].sharedMesh.subMeshCount; ++j)
+            {
+                if (!set_submesh_triangles(nativeExporter, i, j, meshes[i].sharedMesh.GetTriangles(j), meshes[i].sharedMesh.GetTriangles(j).Length))
+                    return false;
+            }
         }
 
-        
-        
+        Debug.Log("Todo ok");
+
+
         return export_obj(nativeExporter, path);
     }
 
@@ -124,30 +145,6 @@ public unsafe class Exporter
         return back;
     }
 
-    public int GetSize()
-    {
-        return get_size(nativeExporter);
-    }
-
-    public void SetVertex(Vector3[] vertex)
-    {
-        set_vertex(nativeExporter, vertex, vertex.Length);
-    }
-
-    public void SetNormals(Vector3 [] normals)
-    {
-        set_normals(nativeExporter,normals, normals.Length);
-    }
-
-    public void SetTexcoord(Vector2 [] texcoord)
-    {
-        set_texcoord(nativeExporter,texcoord, texcoord.Length);
-    }
-
-    public void SetMeshTransform(Vector3 position, Vector3 rotation, Vector3 scale)
-    {
-        set_mesh_transform(nativeExporter, position, rotation, scale);
-    }
 
     #endregion
 }

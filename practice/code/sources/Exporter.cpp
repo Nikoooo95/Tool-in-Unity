@@ -3,25 +3,30 @@
 #include "stdafx.h"
 
 #include "Exporter.h"
+#include <iostream>
+#include <fstream>
 
 Exporter::Exporter()
 {
 	path = "";
 	log = "";
+
 }
 
 bool Exporter::export_obj(std::string & path)
 {
 	set_path(path);
 
-	if (!generate_file())
-	{
-		for (auto & ms : meshes)
-		{
-			log += ms->get_log();
-		}
-		return false;
-	}
+
+
+	//if (!generate_file())
+	//{
+	//	for (auto & ms : meshes)
+	//	{
+	//		log += ms->get_log();
+	//	}
+	//	return false;
+	//}
 
 	return true;
 }
@@ -99,10 +104,16 @@ bool Exporter::generate_file()
 		file += ms->export_mesh(last_index);
 		last_index += ms->get_vertex_count();
 	}
-
+	 
 	if (file == "") return false;
 
 	//Generar archivu
+
+	std::ofstream archive;
+	archive.open(path + "/malla.obj");
+	if (!archive) return false;
+	archive << file << std::endl;
+	archive.close();
 
 	return true;
 }

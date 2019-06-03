@@ -27,13 +27,7 @@ bool export_obj(Exporter * exporter, char * path)
 extern "C" __declspec(dllexport)
 const char* get_path(Exporter * exporter)
 {
-	return exporter->get_path();
-}
-
-extern "C" __declspec(dllexport)
-const char* get_log(Exporter * exporter)
-{
-	return exporter->get_log().c_str();
+	return exporter->get_path().c_str();
 }
 
 extern "C" __declspec(dllexport)
@@ -42,6 +36,14 @@ void set_path(Exporter * exporter, char * path)
 	std::string str(path);
 	exporter->set_path(str);
 }
+
+extern "C" __declspec(dllexport)
+const char* get_log(Exporter * exporter)
+{
+	return exporter->get_log().c_str();
+}
+
+//add mesh
 
 extern "C" __declspec(dllexport)
 void set_mesh_transform(Exporter * exporter, int index, Vector3f position, Vector3f rotation, Vector3f scale)
@@ -59,6 +61,12 @@ extern "C" __declspec(dllexport)
 void set_meshes_count(Exporter * exporter, int size)
 {
 	exporter->set_meshes_count(size);
+}
+
+extern "C" __declspec(dllexport)
+bool set_submesh_triangles(Exporter * exporter, int index, int submesh, int triangles[], int size)
+{
+	return exporter->set_submesh_triangles(index, submesh, triangles, size);
 }
 
 

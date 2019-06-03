@@ -19,7 +19,7 @@ public class Test : MonoBehaviour
         }
 
         Exporter exp = new Exporter();
-        exp.SetVertex(c);
-        Debug.Log("jejej: " + exp.GetSize());
+        if (!exp.Export("D:/UNIVERSIDAD/Unity/Tool-in-Unity/practice/projects/unity/Assets"))
+            Debug.Log("Noooo");
     }
 }
