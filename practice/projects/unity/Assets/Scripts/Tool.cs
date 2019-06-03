@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEditor;
 using System.Text;
+using System.IO;
 
 //Wrapper
 public unsafe class Tool
@@ -44,19 +46,22 @@ public unsafe class Tool
 
     #region API friendly
     public Tool(string path){
+
         nativePointer = createTool();
         Debug.Log("Parsing...");
         var ptr = parseFile(nativePointer, path);
         Debug.Log("Parsed.");
+
     }
 
-    public void Load2D()
+    public void Load2D(bool looped)
     {
         int layersAmount = getLayersAmount(nativePointer);
         for (int i = 0; i < layersAmount; ++i)
         {
             GameObject layer = new GameObject();
             layer.name = getNameFromLayer(i);
+            layer.tag = "Layer";
             int modelsAmount = getModelsInLayerAmount(nativePointer, i);
             for (int j = 0; j < modelsAmount; ++j)
             {
@@ -64,16 +69,22 @@ public unsafe class Tool
                 model.name = getNameFromModel(i, j);
                 model.transform.parent = layer.transform;
 
-                generateLineRenderer(model, getPositions3D(i, j));
+                generateLineRenderer(model, getPositions3D(i, j), looped);
             }
         }
     }
 
-    void generateLineRenderer(GameObject model, Vector3[] positions)
+    void generateLineRenderer(GameObject model, Vector3[] positions, bool looped)
     {
         LineRenderer line = model.AddComponent<LineRenderer>();
         line.positionCount = positions.Length;
         line.SetPositions(positions);
+        line.startWidth = 0.25f;
+        line.endWidth = 0.25f;
+        Material material = Resources.Load("Line2D.mat", typeof(Material)) as Material;
+        line.sharedMaterial = new Material(Shader.Find("Specular"));
+        line.sharedMaterial.color = Color.black;
+        line.loop = looped;
     }
 
     Vector3[] getPositions3D(int layer, int model)
@@ -103,6 +114,60 @@ public unsafe class Tool
         {
             vec3[i] = new Vector3(vec2[i].x, 0.0f, vec2[i].y);
         }
+    }
+
+    public void Clean2D()
+    {
+        GameObject [] gameObjects = GameObject.FindGameObjectsWithTag("Layer");
+        foreach(GameObject gameObject in gameObjects)
+        {
+            UnityEngine.Object.DestroyImmediate(gameObject);
+        }
+    }
+
+    public void SaveAsPrefab2D(string savePath)
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Layer");
+        foreach (GameObject gameObject in gameObjects)
+        {
+            if (!Directory.Exists(savePath))
+                if (EditorUtility.DisplayDialog("Warning",
+                    "The directory doesn't exists. Do you want to create it?",
+                    "Yes",
+                    "No"))
+                {
+                    Directory.CreateDirectory(savePath);
+                }
+                else
+                {
+                    return;
+                }
+
+                    savePath +=  gameObject.name + ".prefab";
+            if (AssetDatabase.LoadAssetAtPath(savePath, typeof(GameObject)))
+            {
+                //Create dialog to ask if User is sure they want to overwrite existing Prefab
+                if (EditorUtility.DisplayDialog("Are you sure?",
+                    "The Prefab already exists in the path " + savePath + " . Do you want to overwrite it?",
+                    "Yes",
+                    "No"))
+                //If the user presses the yes button, create the Prefab
+                {
+                    CreatePrefab(savePath, gameObject);
+                }
+            }
+            //If the name doesn't exist, create the new Prefab
+            else
+            {
+                Debug.Log(gameObject.name + " is not a Prefab, will convert");
+                CreatePrefab(savePath, gameObject);
+            }
+        }
+    }
+
+    void CreatePrefab(string savePath, GameObject gameObject)
+    {
+        UnityEngine.Object prefab = PrefabUtility.SaveAsPrefabAsset(gameObject, savePath);
     }
 
     #endregion
