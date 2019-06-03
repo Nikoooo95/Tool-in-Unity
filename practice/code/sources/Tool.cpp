@@ -85,8 +85,8 @@ namespace tool {
 	bool Tool::parseModel(xml_Node * modelNode, std::shared_ptr<Model2D> model) {
 		for (xml_Node * componentNode = modelNode->first_node(); componentNode; componentNode = componentNode->next_sibling()) {
 			if (componentNode->type() == node_element) {
-				if (std::string(modelNode->name()) == "vertex") {
-					std::shared_ptr<Vertex2D> vertex(new Vertex2D());
+				if (std::string(componentNode->name()) == "vertex") {
+					std::shared_ptr<Vector2> vertex(new Vector2());
 					if (!parseVertex(componentNode, vertex)) {
 						return false;
 					}
@@ -103,11 +103,11 @@ namespace tool {
 		return true;
 	}
 
-	bool Tool::parseVertex(xml_Node * vertexNode, std::shared_ptr<Vertex2D> vertex) {
+	bool Tool::parseVertex(xml_Node * vertexNode, std::shared_ptr<Vector2> vertex) {
 		std::string nameNode;
 		for (xml_Node * vertNode = vertexNode->first_node(); vertNode; vertNode = vertNode->next_sibling()) {
 			nameNode = vertNode->value();
-			if (vertNode->type() == node_element) {
+			//if (vertNode->type() == node_element) {
 				if (std::string(vertNode->name()) == "v") {
 					size_t nComa = std::count(nameNode.begin(), nameNode.end(), ',');
 					std::vector<float> values;
@@ -117,13 +117,14 @@ namespace tool {
 						values.push_back(std::stof(nameNode.substr(0, position)));
 						nameNode.erase(0, position + 1);
 					}
-
-					vertex->setX(values[0]);
-					vertex->setY(values[1]);
+					vertex->set(values[0], values[1]);
+					//vertex->x = values[0];
+					//vertex->y = values[1];
+					
 
 				}
 
-			}
+			//}
 		}
 		return true;
 	}

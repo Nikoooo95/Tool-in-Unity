@@ -2,7 +2,7 @@
 #define MODEL_HEADER
 #include <string>
 #include <vector>
-#include "Vertex2D.hpp"
+#include "Vector2.hpp"
 namespace tool {
 	class Model {
 	private:

@@ -24,6 +24,7 @@
     <ClCompile Include="..\..\..\code\sources\Model.cpp" />
     <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp" />
     <ClCompile Include="..\..\..\code\sources\Tool.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h" />
@@ -36,7 +37,7 @@
     <ClInclude Include="..\..\..\code\headers\stdafx.h" />
     <ClInclude Include="..\..\..\code\headers\Tool.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vertex.hpp" />
-    <ClInclude Include="..\..\..\code\headers\Vertex2D.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Vector2.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vertex3D.hpp" />
   </ItemGroup>
   <ItemGroup>

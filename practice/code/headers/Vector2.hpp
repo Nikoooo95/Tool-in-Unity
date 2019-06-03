@@ -2,7 +2,7 @@
 #define VERTEX_2D_HEADER
 #include "Vertex.hpp"
 namespace tool {
-	class Vertex2D {
+	/*class Vertex2D {
 	private:
 		float x;
 		float y;
@@ -21,6 +21,22 @@ namespace tool {
 			x = 0;
 			y = 0;
 		}
+	};*/
+
+
+	struct Vector2 {
+	public:
+		float x;
+		float y;
+
+		Vector2(float x = 0.0f, float y = 0.0f);
+
+		Vector2(const Vector2& other);
+
+		void set(float _x, float _y);
+
+		Vector2 operator=(const Vector2 &);
+
 	};
 }
 

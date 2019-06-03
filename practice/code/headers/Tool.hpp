@@ -8,7 +8,7 @@
 #include "Layer.hpp"
 #include "Gonic.hpp"
 #include "Model2D.hpp"
-#include "Vertex2D.hpp"
+#include "Vector2.hpp"
 
 using namespace rapidxml;
 
@@ -28,12 +28,31 @@ namespace tool {
 		bool parseFile(xml_Node * fileNode);
 		bool parseLayer(xml_Node * layerNode, std::shared_ptr<Layer> layer);
 		bool parseModel(xml_Node * modelNode, std::shared_ptr<Model2D> model);
-		bool parseVertex(xml_Node * vertexNode, std::shared_ptr<Vertex2D> vertex);
+		bool parseVertex(xml_Node * vertexNode, std::shared_ptr<Vector2> vertex);
 
 	public:
-		const std::string getLayerName() {
-			return gonicFile->getFirstLayerName();
+		const std::string getLayerName(int layer) {
+			return gonicFile->getLayerName(layer);
+		}
 
+		const int getLayersAmount() {
+			return gonicFile->getLayersAmount();
+		}
+
+		const int getModelsInLayerAmount(int layer) {
+			return gonicFile->getModelsInLayerAmount(layer);
+		}
+
+		const int getVectorsAmount(int layer, int model) {
+			return gonicFile->getVectorsAmount(layer, model);
+		}
+
+		const std::string getModelNameInLayer(int layer, int model) {
+			return gonicFile->getModelNameInLayer(layer, model);
+		}
+
+		void fillVectors(int layer, int model, Vector2 vectors[]) {
+			gonicFile->fillVectors(layer, model, vectors);
 		}
 	};
 }

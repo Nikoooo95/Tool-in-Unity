@@ -2,60 +2,12 @@
 <gonic>
 	<layer name="Layer_1">
 		<model name="Model_1" height="20">
-	
 			<vertex>
-				<v>0,0</v>
-				<v>0,1</v>
-				<v>1,1</v>
-				<v>1,0</v>
+				<v>1,2</v>
+				<v>3,4</v>
+				<v>5,6</v>
+				<v>7,8</v>
 			</vertex>
-			<union>
-				<u>
-					<values>0,1</values>
-					<normal>0,-1</normal>
-				</u>
-				<u>
-					<values>1,2</values>
-					<normal>1,0</normal>
-				</u>
-				<u>
-					<values>2,3</values>
-					<normal>0,1</normal>
-				</u>
-				<u>
-					<values>0,3</values>
-					<normal>-1,0</normal>
-				</u>
-			</union>
-			<color>123, 255, 0</color>
-			
-		</model>
-		<model name="Model_2">
-			<vertex>
-				<v>0,0</v>
-				<v>0,1</v>
-				<v>1,1</v>
-				<v>1,0</v>
-			</vertex>
-			<union height="20">
-				<u>
-					<values>0,1</values>
-					<normal>0,-1</normal>
-				</u>
-				<u>
-					<values>1,2</values>
-					<normal>1,0</normal>
-				</u>
-				<u>
-					<values>2,3</values>
-					<normal>0,1</normal>
-				</u>
-				<u>
-					<values>0,3</values>
-					<normal>-1,0</normal>
-				</u>
-			</union>
-			<color>123, 255, 0</color>
 		</model>
 	</layer>
 </gonic>

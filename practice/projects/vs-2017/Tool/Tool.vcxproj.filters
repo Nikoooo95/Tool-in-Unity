@@ -30,6 +30,9 @@
     <ClCompile Include="..\..\..\code\sources\Gonic.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\code\sources\Vector2.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h">
@@ -62,10 +65,10 @@
     <ClInclude Include="..\..\..\code\headers\Vertex.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\headers\Vertex2D.hpp">
+    <ClInclude Include="..\..\..\code\headers\Vertex3D.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\code\headers\Vertex3D.hpp">
+    <ClInclude Include="..\..\..\code\headers\Vector2.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

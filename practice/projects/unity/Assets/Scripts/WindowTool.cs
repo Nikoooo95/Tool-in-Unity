@@ -13,7 +13,7 @@ public class WindowTool : EditorWindow
     Vector2 positions;
 
     Tool tool;
-    [MenuItem("Window/Room Generator")]
+    [MenuItem("Tool/Room Generator")]
     static void Init()
     {
         WindowTool tool = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
@@ -35,7 +35,10 @@ public class WindowTool : EditorWindow
 
         if(GUILayout.Button("Read File"))
         {
+            EditorUtility.DisplayProgressBar("CosoTool", "Parseando.....", 0);
             tool = new Tool(path);
+            EditorUtility.DisplayProgressBar("CosoTool", "Parseando.....", 100);
+            EditorUtility.ClearProgressBar();
            
         }
 
@@ -45,6 +48,17 @@ public class WindowTool : EditorWindow
             Debug.Log(tool.getLayerName());
         }
 
+
+        if(GUILayout.Button("Get Vertex"))
+        {
+            tool.SetVector();
+           //Debug.Log(tool.getVertex2D());
+        }
+
+        if(GUILayout.Button("Load 2D"))
+        {
+            tool.Load2D();
+        }
         positions = EditorGUILayout.Vector2Field("Valores", positions);
     }
 }
