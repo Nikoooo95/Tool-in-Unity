@@ -7,43 +7,41 @@ namespace tool {
 	class Gonic {
 	private:
 		std::vector<std::shared_ptr<Layer>> layers;
+
 	public:
 		Gonic() {}
 
 	public:
 		void addLayer(std::string name, std::shared_ptr<Layer> layer);
+		void fillVectors(int layer, int model, Vector2 vectors[]);
 
-		std::string getFirstLayerName() {
-			//std::map<std::string, std::shared_ptr<Layer>>::iterator it = layers.begin();
-			return layers.front()->getName();
-			/*if (layers.empty()) {
-				return "el mapa esta vacio";
-			}
-			return "esta ocupao";*/
+	public:
+		inline int getLayersAmount() 
+		{
+			return (int)layers.size();
 		}
 
-		int getLayersAmount() {
-			return layers.size();
+		inline const std::string getLayerName(int layer)
+		{
+			return layers[layer]->getName();
 		}
 
-		const std::string getLayerName(int pos) {
-			return layers[pos]->getName();
+		inline const int getModelsInLayerAmount(int layer)
+		{
+			return layers[layer]->getModelsAmount();
 		}
 
-		const int getModelsInLayerAmount(int pos) {
-			return layers[pos]->getModelsAmount();
-		}
-
-		const int getVectorsAmount(int layer, int model) {
-			return layers[layer]->getVectorsAmount(model);
-		}
-		const std::string getModelNameInLayer(int layer, int model) {
+		inline const std::string getModelNameInLayer(int layer, int model)
+		{
 			return layers[layer]->getModelName(model);
 		}
 
-		void fillVectors(int layer, int model, Vector2 vectors[]) {
-			layers[layer]->fillVectors(model, vectors);
+		inline const int getVectorsAmount(int layer, int model) 
+		{
+			return layers[layer]->getVectorsAmount(model);
 		}
+
+		
 
 
 		

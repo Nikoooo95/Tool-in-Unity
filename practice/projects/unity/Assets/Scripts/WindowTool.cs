@@ -6,13 +6,15 @@ public class WindowTool : EditorWindow
 
     string path = "D:\\Usuarios\\Nicolas\\Documentos\\Tool-in-Unity\\practice\\projects\\unity\\Assets\\Plugins\\file\\file.xml";
 
-    bool optionalSettings;
+    /*bool optionalSettings;
 
     Color color;
-    float size = 1;
-    Vector2 positions;
+    float size = 1;*/
+
+    bool parsed = false;
 
     Tool tool;
+
     [MenuItem("Tool/Room Generator")]
     static void Init()
     {
@@ -25,13 +27,15 @@ public class WindowTool : EditorWindow
         GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         path = EditorGUILayout.TextField("Path", path);
 
-        optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
+        /*optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
         color = EditorGUILayout.ColorField("Color", color);
         size = EditorGUILayout.Slider("Size", size, 0.0f, 5.0f);
-        EditorGUILayout.EndToggleGroup();
+        EditorGUILayout.EndToggleGroup();*/
 
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Ey");
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Buttons");
 
         if(GUILayout.Button("Read File"))
         {
@@ -39,27 +43,17 @@ public class WindowTool : EditorWindow
             tool = new Tool(path);
             EditorUtility.DisplayProgressBar("CosoTool", "Parseando.....", 100);
             EditorUtility.ClearProgressBar();
+            parsed = true;
            
         }
 
-        if (GUILayout.Button("Get Layer"))
-        {
-            
-            Debug.Log(tool.getLayerName());
-        }
-
-
-        if(GUILayout.Button("Get Vertex"))
-        {
-            tool.SetVector();
-           //Debug.Log(tool.getVertex2D());
-        }
-
-        if(GUILayout.Button("Load 2D"))
+        EditorGUI.BeginDisabledGroup(!parsed);
+        if (GUILayout.Button("Load 2D"))
         {
             tool.Load2D();
         }
-        positions = EditorGUILayout.Vector2Field("Valores", positions);
+        EditorGUI.EndDisabledGroup();
     }
+
 }
 

@@ -1,6 +1,8 @@
 #include "Vector2.hpp"
 
-namespace tool {
+namespace tool 
+{
+
 	Vector2::Vector2(float _x, float _y) :
 		x(_x), y(_y)
 	{
@@ -19,7 +21,8 @@ namespace tool {
 		y = _y;
 	}
 
-	Vector2 Vector2::operator=(const Vector2 & other) {
+	Vector2 Vector2::operator=(const Vector2 & other) 
+	{
 		x = other.x;
 		y = other.y;
 		return *this;

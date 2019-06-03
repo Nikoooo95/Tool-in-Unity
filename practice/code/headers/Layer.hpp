@@ -1,40 +1,51 @@
 #ifndef LAYER_HEADER
 #define LAYER_HEADER
+
 #include <map>
 #include <string>
+
 #include "Model2D.hpp"
-namespace tool {
-	class Layer {
+
+namespace tool 
+{
+	class Layer 
+	{
+
 	private:
 		std::string name;
 		std::vector<std::shared_ptr<Model2D>> models;
+
 	public:
 		Layer(std::string _name) : name(_name){}
 
 	public:
 		void addModel(std::string name, std::shared_ptr<Model2D> model);
+		void fillVectors(int model, Vector2 vectors[]);
 
-		void getVertexFromModels();
+	public:
 
-		const std::string getName(){
+		inline const std::string getName()
+		{
 			return name;
 		}
 
-		const int getModelsAmount() {
-			return models.size();
+		inline const int getModelsAmount() 
+		{
+			return (int)models.size();
 		}
 
-		const int getVectorsAmount(int model) {
+		inline const int getVectorsAmount(int model) 
+		{
 			return models[model]->getVectorsAmount();
 		}
 
-		const std::string getModelName(int model) {
+		inline const std::string getModelName(int model) 
+		{
 			return models[model]->getName();
 		}
 
-		void fillVectors(int model, Vector2 vectors[]) {
-			models[model]->fillVectors(vectors);
-		}
+		
+		
 	};
 }
 

@@ -3,8 +3,10 @@
 #include <string>
 #include <vector>
 #include "Vector2.hpp"
-namespace tool {
-	class Model {
+namespace tool 
+{
+	class Model 
+	{
 	private:
 		std::string name;
 		

@@ -22,6 +22,7 @@
     <ClCompile Include="..\..\..\code\sources\Gonic.cpp" />
     <ClCompile Include="..\..\..\code\sources\Layer.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Model2D.cpp" />
     <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp" />
     <ClCompile Include="..\..\..\code\sources\Tool.cpp" />
     <ClCompile Include="..\..\..\code\sources\Vector2.cpp" />
@@ -33,8 +34,6 @@
     <ClInclude Include="..\..\..\code\headers\Model.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model2D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model3D.hpp" />
-    <ClInclude Include="..\..\..\code\headers\SimplexNoise.h" />
-    <ClInclude Include="..\..\..\code\headers\stdafx.h" />
     <ClInclude Include="..\..\..\code\headers\Tool.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vertex.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vector2.hpp" />
