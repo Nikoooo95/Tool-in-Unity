@@ -20,6 +20,10 @@ public class Test : MonoBehaviour
 
         Exporter exp = new Exporter();
         if (!exp.Export("D:/UNIVERSIDAD/Unity/Tool-in-Unity/practice/projects/unity/Assets"))
+        {
+            Debug.Log("Log_: " + exp.GetLog());
             Debug.Log("Noooo");
+
+        }
     }
 }

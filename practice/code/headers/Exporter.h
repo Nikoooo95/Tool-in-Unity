@@ -42,6 +42,8 @@ public:
 
 	const std::string & get_log() { return log; }
 
+	int get_meshes_count() { return meshes.size(); }
+
 private:
 
 	bool generate_file();

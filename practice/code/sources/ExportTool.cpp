@@ -46,9 +46,9 @@ const char* get_log(Exporter * exporter)
 //add mesh
 
 extern "C" __declspec(dllexport)
-void set_mesh_transform(Exporter * exporter, int index, Vector3f position, Vector3f rotation, Vector3f scale)
+bool set_mesh_transform(Exporter * exporter, int index, Vector3f position, Vector3f rotation, Vector3f scale)
 {
-	exporter->set_mesh_transform(index, position, rotation, scale);
+	return exporter->set_mesh_transform(index, position, rotation, scale);
 }
 
 extern "C" __declspec(dllexport)
@@ -64,9 +64,21 @@ void set_meshes_count(Exporter * exporter, int size)
 }
 
 extern "C" __declspec(dllexport)
+bool set_mesh_submeshes_count(Exporter * exporter, int index, int size)
+{
+	return exporter->set_mesh_submeshes_count(index, size);
+}
+
+extern "C" __declspec(dllexport)
 bool set_submesh_triangles(Exporter * exporter, int index, int submesh, int triangles[], int size)
 {
 	return exporter->set_submesh_triangles(index, submesh, triangles, size);
+}
+
+extern "C" __declspec(dllexport)
+int get_meshes_count(Exporter * exporter)
+{
+	return exporter->get_meshes_count();
 }
 
 

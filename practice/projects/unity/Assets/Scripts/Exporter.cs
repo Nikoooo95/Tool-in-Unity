@@ -19,23 +19,11 @@ public unsafe class Exporter
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern bool export_obj(NativeExporter* ptr, string path);
 
-    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    //private static extern void set_vertex(NativeExporter* ptr, Vector3[] v, int size);
-
-    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    //private static extern void set_normals(NativeExporter* ptr, Vector3[] n, int size);
-
-    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    //private static extern void set_texcoord(NativeExporter* ptr, Vector2[] tc, int size);
-
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr get_path(NativeExporter* ptr);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr get_log(NativeExporter* ptr);
-
-    //[DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    //private static extern int get_size(NativeExporter* ptr);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern bool set_mesh_transform(NativeExporter* ptr, int index, Vector3 position, Vector3 rotation, Vector3 scale);
@@ -44,14 +32,16 @@ public unsafe class Exporter
     private static extern bool set_mesh_by_index(NativeExporter* ptr, int index, Vector3[] vertex, Vector3[] normals, Vector2[] uvs, int size_v, int size_n, int size_uv);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern bool set_meshes_count(NativeExporter* ptr, int size);
+    private static extern void set_meshes_count(NativeExporter* ptr, int size);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern bool set_mesh_submeshes_count(NativeExporter* ptr, int index, int size);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern bool set_submesh_triangles(NativeExporter* ptr, int index, int submesh, int[] triangles, int size);
-    
+
+    [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern int get_meshes_count(NativeExporter* ptr);
 
     #endregion
 
@@ -103,31 +93,36 @@ public unsafe class Exporter
             }
         }
         //------------------------------------------------------------------------
-
+        Debug.Log("0 " + meshes.Length);
         set_meshes_count(nativeExporter, meshes.Length);
+
         for (int i = 0; i < meshes.Length; ++i)
         {
             string name = meshes[i].gameObject.name;
             MeshRenderer renderer = meshes[i].gameObject.GetComponent<MeshRenderer>();
-
+            
             if (!set_mesh_transform(nativeExporter, i, meshes[i].transform.position, meshes[i].transform.rotation.eulerAngles, meshes[i].transform.lossyScale))
                 return false;
-            if(!set_mesh_by_index(nativeExporter, i, meshes[i].sharedMesh.vertices, meshes[i].sharedMesh.normals, meshes[i].sharedMesh.uv, meshes[i].sharedMesh.vertices.Length, meshes[i].sharedMesh.normals.Length, meshes[i].sharedMesh.uv.Length))
+            Debug.Log("1");
+
+            if (!set_mesh_by_index(nativeExporter, i, meshes[i].sharedMesh.vertices, meshes[i].sharedMesh.normals, meshes[i].sharedMesh.uv, meshes[i].sharedMesh.vertices.Length, meshes[i].sharedMesh.normals.Length, meshes[i].sharedMesh.uv.Length))
                 return false;
-           
-            if(!set_mesh_submeshes_count(nativeExporter, i, meshes[i].sharedMesh.subMeshCount))
+            Debug.Log("2");
+
+            if (!set_mesh_submeshes_count(nativeExporter, i, meshes[i].sharedMesh.subMeshCount))
                 return false;
+            Debug.Log("3");
 
             for (int j = 0; j < meshes[i].sharedMesh.subMeshCount; ++j)
             {
                 if (!set_submesh_triangles(nativeExporter, i, j, meshes[i].sharedMesh.GetTriangles(j), meshes[i].sharedMesh.GetTriangles(j).Length))
                     return false;
+                Debug.Log("4");
+
             }
         }
 
         Debug.Log("Todo ok");
-
-
         return export_obj(nativeExporter, path);
     }
 

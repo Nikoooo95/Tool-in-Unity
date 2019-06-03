@@ -17,16 +17,14 @@ bool Exporter::export_obj(std::string & path)
 {
 	set_path(path);
 
-
-
-	//if (!generate_file())
-	//{
-	//	for (auto & ms : meshes)
-	//	{
-	//		log += ms->get_log();
-	//	}
-	//	return false;
-	//}
+	if (!generate_file())
+	{
+		for (auto & ms : meshes)
+		{
+			log += ms->get_log();
+		}
+		return false;
+	}
 
 	return true;
 }
@@ -58,6 +56,7 @@ bool Exporter::set_mesh_transform(int index, Vector3f position, Vector3f rotatio
 	if( index >= meshes.size()) return false;
 
 	meshes[index]->set_transform(position, rotation, scale);
+	return true;
 }
 
 bool Exporter::set_mesh_by_index(int index, Vector3f vertex[], Vector3f normals[], Vector2f uvs[], int size_v, int size_n, int size_uv)
@@ -74,8 +73,14 @@ bool Exporter::set_mesh_by_index(int index, Vector3f vertex[], Vector3f normals[
 
 void Exporter::set_meshes_count(int size)
 {
-	meshes.clear();
-	meshes.resize(size);
+	//meshes.clear();
+	//meshes.resize(size);
+	for (size_t i = 0; i < size; ++i)
+	{
+		std::shared_ptr<Mesh> new_mesh(new Mesh());
+
+		meshes.push_back(new_mesh);
+	}
 }
 
 bool Exporter::set_mesh_submeshes_count(int index, int size)
