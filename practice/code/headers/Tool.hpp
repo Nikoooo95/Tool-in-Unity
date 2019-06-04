@@ -11,6 +11,7 @@
 #include "Gonic.hpp"
 #include "Model2D.hpp"
 #include "Vector2.hpp"
+#include "Color.hpp"
 
 using namespace rapidxml;
 
@@ -37,6 +38,7 @@ namespace tool
 		bool parseLayer(xml_Node * layerNode, std::shared_ptr<Layer> layer);
 		bool parseModel(xml_Node * modelNode, std::shared_ptr<Model2D> model);
 		bool parseVertex(xml_Node * vertexNode, std::shared_ptr<Model2D> model);
+		bool parseColor(xml_Node * colorNode, std::shared_ptr<Model2D> model);
 
 	public:
 		inline const std::string getLayerName(int layer) 
@@ -67,14 +69,7 @@ namespace tool
 			gonicFile->fillVectors(layer, model, vectors); 
 		}
 
-		const char* charToString(std::string dataValue) {
-			int lenStr = dataValue.length() + 1;
-			char* answer = new char[lenStr];
-			const char * constAnswer = new char[lenStr];
-			strcpy_s(answer, lenStr, dataValue.c_str());
-			constAnswer = answer;
-			return constAnswer;
-		}
+		const char* charToString(std::string dataValue);
 	};
 }
 

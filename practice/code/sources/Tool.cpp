@@ -96,13 +96,13 @@ namespace tool
 					if(!parseVertex(componentNode, model))
 						return false;
 				}
-				else if (std::string(modelNode->name()) == "union") 
+				else if (std::string(componentNode->name()) == "union")
 				{
 
 				}
-				else if (std::string(modelNode->name()) == "color") 
+				else if (std::string(componentNode->name()) == "color")
 				{
-
+					
 				}
 			}
 		}
@@ -138,5 +138,35 @@ namespace tool
 			}
 		}
 		return true;
+	}
+
+	bool Tool::parseColor(xml_Node * colorNode, std::shared_ptr<Model2D> model) {
+		std::shared_ptr<Color> color(new Color());
+		std::string nameNode = colorNode->value();
+		size_t nComa = std::count(nameNode.begin(), nameNode.end(), ',');
+
+		std::vector<int> values;
+
+		for (size_t i = 0; i < nComa + 1; ++i)
+		{
+			size_t position;
+			position = nameNode.find(',');
+			values.push_back((int)std::stof(nameNode.substr(0, position)));
+			nameNode.erase(0, position + 1);
+		}
+
+		color->set(values[0], values[1], values[2]);
+		model->setColor(color);
+
+		return true;
+	}
+
+	const char* Tool::charToString(std::string dataValue) {
+		int lenStr = (int)dataValue.length() + 1;
+		char* answer = new char[lenStr];
+		const char * constAnswer = new char[lenStr];
+		strcpy_s(answer, lenStr, dataValue.c_str());
+		constAnswer = answer;
+		return constAnswer;
 	}
 }

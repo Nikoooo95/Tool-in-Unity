@@ -53,7 +53,7 @@ public:
 	void init() {
 		initialized = true;
 		for (int i = 0; i < 256; ++i) {
-			this->p[i] = floor((rand() % 256 + 1));
+			this->p[i] = (int)floor((rand() % 256 + 1));
 		}
 		for (int i = 0; i < 512; ++i) {
 			this->perm[i] = p[i & 255];

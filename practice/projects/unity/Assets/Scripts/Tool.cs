@@ -37,12 +37,10 @@ public unsafe class Tool
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
     private static extern int fillVectors(NativeTool* ptr, int layer, int model, Vector2[] vectors);
 
-    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr hola();
-
     #endregion
 
     NativeTool* nativePointer;
+    Material material2D;
 
     #region API friendly
     public Tool(string path){
@@ -51,7 +49,7 @@ public unsafe class Tool
         Debug.Log("Parsing...");
         var ptr = parseFile(nativePointer, path);
         Debug.Log("Parsed.");
-
+        material2D = Resources.Load("Line2D.mat", typeof(Material)) as Material;
     }
 
     public void Load2D(bool looped)
@@ -60,55 +58,55 @@ public unsafe class Tool
         for (int i = 0; i < layersAmount; ++i)
         {
             GameObject layer = new GameObject();
-            layer.name = getNameFromLayer(i);
+            layer.name = GetNameFromLayer(i);
             layer.tag = "Layer";
             int modelsAmount = getModelsInLayerAmount(nativePointer, i);
             for (int j = 0; j < modelsAmount; ++j)
             {
                 GameObject model = new GameObject();
-                model.name = getNameFromModel(i, j);
+                model.name = GetNameFromModel(i, j);
                 model.transform.parent = layer.transform;
 
-                generateLineRenderer(model, getPositions3D(i, j), looped);
+                GenerateLineRenderer(model, GetPositions3D(i, j), looped);
             }
         }
     }
 
-    void generateLineRenderer(GameObject model, Vector3[] positions, bool looped)
+    void GenerateLineRenderer(GameObject model, Vector3[] positions, bool looped)
     {
         LineRenderer line = model.AddComponent<LineRenderer>();
         line.positionCount = positions.Length;
         line.SetPositions(positions);
         line.startWidth = 0.25f;
         line.endWidth = 0.25f;
-        Material material = Resources.Load("Line2D.mat", typeof(Material)) as Material;
-        line.sharedMaterial = new Material(Shader.Find("Specular"));
-        line.sharedMaterial.color = Color.black;
+        Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Color"));
+        whiteDiffuseMat.SetColor("_Color", Color.green);
+        line.material = whiteDiffuseMat;
         line.loop = looped;
     }
 
-    Vector3[] getPositions3D(int layer, int model)
+    Vector3[] GetPositions3D(int layer, int model)
     {
         Vector2[] positions2D = new Vector2[getVectorsAmount(nativePointer, layer, model)];
         fillVectors(nativePointer, layer, model, positions2D);
         Vector3[] positions3D = new Vector3[positions2D.Length];
-        convertVector(positions3D, positions2D);
+        ConvertVector(positions3D, positions2D);
         return positions3D;
     }
 
-    string getNameFromLayer(int layer)
+    string GetNameFromLayer(int layer)
     {
         var ptr = getLayerName(nativePointer, layer);
         return Marshal.PtrToStringAnsi(ptr);
     }
 
-    string getNameFromModel(int layer, int model)
+    string GetNameFromModel(int layer, int model)
     {
         var ptr = getModelNameInLayer(nativePointer, layer, model);
         return Marshal.PtrToStringAnsi(ptr);
     }
 
-    void convertVector(Vector3[] vec3, Vector2[] vec2)
+    void ConvertVector(Vector3[] vec3, Vector2[] vec2)
     {
         for (int i = 0; i < vec3.Length; ++i)
         {
@@ -146,20 +144,18 @@ public unsafe class Tool
                     savePath +=  gameObject.name + ".prefab";
             if (AssetDatabase.LoadAssetAtPath(savePath, typeof(GameObject)))
             {
-                //Create dialog to ask if User is sure they want to overwrite existing Prefab
+
                 if (EditorUtility.DisplayDialog("Are you sure?",
                     "The Prefab already exists in the path " + savePath + " . Do you want to overwrite it?",
                     "Yes",
                     "No"))
-                //If the user presses the yes button, create the Prefab
+
                 {
                     CreatePrefab(savePath, gameObject);
                 }
             }
-            //If the name doesn't exist, create the new Prefab
             else
             {
-                Debug.Log(gameObject.name + " is not a Prefab, will convert");
                 CreatePrefab(savePath, gameObject);
             }
         }
@@ -167,6 +163,7 @@ public unsafe class Tool
 
     void CreatePrefab(string savePath, GameObject gameObject)
     {
+        Debug.Log("Saved!");
         UnityEngine.Object prefab = PrefabUtility.SaveAsPrefabAsset(gameObject, savePath);
     }
 

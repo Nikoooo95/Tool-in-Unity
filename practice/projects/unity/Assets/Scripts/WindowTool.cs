@@ -1,22 +1,23 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.Runtime.InteropServices;
+
 public class WindowTool : EditorWindow
 {
-
-    string loadPath = "D:\\Usuarios\\Nicolas\\Documentos\\Tool-in-Unity\\practice\\projects\\unity\\Assets\\Plugins\\file\\file.xml";
+    string loadPath = System.IO.Directory.GetCurrentDirectory() + "\\Assets\\Gonic\\file.gonic";
     string savePath = "Assets/Prefabs/";
     bool optionalSettings;
 
-    //Color color;
-    //float size = 1;*/
+
     private GameObject[] layers;
     bool parsed = false;
     bool generated = false;
     bool looped = false;
+	
     Tool tool;
 
-    [MenuItem("Tool/Room Generator")]
+
+    [MenuItem("Tools/My New Tool")]
     static void Init()
     {
         WindowTool tool = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
@@ -29,8 +30,7 @@ public class WindowTool : EditorWindow
         loadPath = EditorGUILayout.TextField("Path", loadPath);
 
         optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
-        // color = EditorGUILayout.ColorField("Color", color);
-        //size = EditorGUILayout.Slider("Size", size, 0.0f, 5.0f);
+
         looped = EditorGUILayout.Toggle("Loop ", looped);
         EditorGUILayout.EndToggleGroup();
 
@@ -41,61 +41,30 @@ public class WindowTool : EditorWindow
 
         if (GUILayout.Button("Read File"))
         {
-            if (!System.IO.File.Exists(loadPath))
+
+            if (!CheckPath())
             {
-                if (EditorUtility.DisplayDialog("Warning",
-                        "The directory doesn't exists. Do you want to create it?",
-                        "Yes",
-                        "No"))
-                {
-                    if (System.IO.Path.GetExtension(loadPath) != ".xml")
-                    {
-                        if (EditorUtility.DisplayDialog("Warning",
-                        "The file is not an XML. Do you still want to create it?",
-                        "Yes",
-                        "No"))
-                        {
-                            System.IO.File.WriteAllText(loadPath, "");
-                            return;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        System.IO.File.WriteAllText(loadPath, "<?xml version=\"1.0\" encoding=\"utf - 8\"?>\n<gonic>\n\n</gonic>");
-                    }
-
-                }
-                else
-                {
-                    return;
-                }
-
+                parsed = false;
+                return;
             }
-
-            if (System.IO.Path.GetExtension(loadPath) != ".xml") return;
-
-              
+                
 
             EditorUtility.DisplayProgressBar("Tool", "Parsing...", 0);
             tool = new Tool(loadPath);
             EditorUtility.DisplayProgressBar("Tool", "Parsing...", 100);
             EditorUtility.ClearProgressBar();
             parsed = true;
-            
-            
 
         }
 
         EditorGUI.BeginDisabledGroup(!parsed);
+
         if (GUILayout.Button("Load 2D"))
         {
             tool.Load2D(looped);
             generated = true;
         }
+
         EditorGUI.EndDisabledGroup();
 
         EditorGUI.BeginDisabledGroup(!generated);
@@ -129,6 +98,57 @@ public class WindowTool : EditorWindow
         }
         EditorGUI.EndDisabledGroup();
 
+    }
+
+    private bool CheckPath()
+    {
+        if (!System.IO.File.Exists(loadPath))
+        {
+            if (EditorUtility.DisplayDialog("Warning",
+                    "The directory is not valid. Do you want to create it?",
+                    "Yes",
+                    "No"))
+            {
+                return CreateFile(loadPath);
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        else
+        {
+            if (System.IO.Path.GetExtension(loadPath) != ".gonic")
+                return false;
+        }
+        return true;
+    }
+
+    private bool CreateFile(string loadPath)
+    {
+        if (System.IO.Path.GetExtension(loadPath) == ".gonic")
+        {
+            System.IO.File.WriteAllText(loadPath, "<?xml version=\"1.0\" encoding=\"utf - 8\"?>\n<gonic>\n\n</gonic>");
+            return true;
+        }
+        else
+        {
+            if (EditorUtility.DisplayDialog("Warning",
+            "The file is not a .gonic file. Do you prefer to create a .gonic file?",
+            "Yes",
+            "No"))
+            {
+                loadPath = System.IO.Path.ChangeExtension(loadPath, ".gonic");
+                System.IO.File.WriteAllText(loadPath, "<?xml version=\"1.0\" encoding=\"utf - 8\"?>\n<gonic>\n\n</gonic>");
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+       
     }
 }
 

@@ -4,12 +4,9 @@
 #include <iostream>
 #include <stdio.h>
 
-
-
 #include "Tool.hpp"
 
 using namespace tool;
-
 
 
 extern "C" __declspec(dllexport)

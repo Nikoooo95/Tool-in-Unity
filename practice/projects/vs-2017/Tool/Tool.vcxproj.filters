@@ -36,6 +36,9 @@
     <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\code\sources\Color.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h">
@@ -68,10 +71,18 @@
     <ClInclude Include="..\..\..\code\headers\Vector2.hpp">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\code\headers\Color.hpp">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\unity\Assets\file.xml">
       <Filter>Archivos de recursos</Filter>
     </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\unity\Assets\Gonic\file.gonic">
+      <Filter>Archivos de recursos</Filter>
+    </None>
   </ItemGroup>
 </Project>

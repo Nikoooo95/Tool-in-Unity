@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\code\sources\Color.cpp" />
     <ClCompile Include="..\..\..\code\sources\Gonic.cpp" />
     <ClCompile Include="..\..\..\code\sources\Layer.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model.cpp" />
@@ -29,6 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h" />
+    <ClInclude Include="..\..\..\code\headers\Color.hpp" />
     <ClInclude Include="..\..\..\code\headers\Gonic.hpp" />
     <ClInclude Include="..\..\..\code\headers\Layer.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model.hpp" />
@@ -41,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\unity\Assets\file.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\unity\Assets\Gonic\file.gonic" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
