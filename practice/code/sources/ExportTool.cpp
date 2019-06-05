@@ -18,10 +18,11 @@ void destroy(Exporter* exporter)
 }
 
 extern "C" __declspec(dllexport)
-bool export_obj(Exporter * exporter, char * path)
+bool export_obj(Exporter * exporter, char * path, char * name)
 {
 	std::string str(path);
-	return exporter->export_obj(str);
+	std::string n(name);
+	return exporter->export_obj(str, n);
 }
 
 extern "C" __declspec(dllexport)

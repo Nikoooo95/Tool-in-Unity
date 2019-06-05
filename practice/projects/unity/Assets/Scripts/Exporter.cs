@@ -17,7 +17,7 @@ public unsafe class Exporter
     private static extern void destroy(NativeExporter* ptr);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern bool export_obj(NativeExporter* ptr, string path);
+    private static extern bool export_obj(NativeExporter* ptr, string path, string name);
 
     [DllImport("ExportTool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr get_path(NativeExporter* ptr);
@@ -47,6 +47,9 @@ public unsafe class Exporter
 
     NativeExporter* nativeExporter;
 
+    public bool allScene = false;
+    public string name = "scene";
+
     #region API friendly
     public Exporter()
     {
@@ -59,16 +62,28 @@ public unsafe class Exporter
     }
 
 
-    public bool Export(string path)
+    public bool Export(string path, string fileName)
     {
         //-----------------------------------------------------------------------
         List<MeshFilter> meshesList = new List<MeshFilter>();
 
-        foreach (GameObject gameobject in Selection.gameObjects)
+        if(allScene)
         {
-            if (gameobject.GetComponent<MeshFilter>() != null)
-                meshesList.Add(gameobject.GetComponent<MeshFilter>());
+            foreach(MeshFilter m in UnityEngine.Object.FindObjectsOfType(typeof(MeshFilter)) as MeshFilter[])
+            {
+                meshesList.Add(m);
+            }
         }
+        else
+        {
+            foreach (GameObject gameobject in Selection.gameObjects)
+            {
+                if (gameobject.GetComponent<MeshFilter>() != null)
+                    meshesList.Add(gameobject.GetComponent<MeshFilter>());
+            }
+        }
+
+
 
         if (meshesList.Count == 0)
         {
@@ -123,7 +138,7 @@ public unsafe class Exporter
         }
 
         Debug.Log("Todo ok");
-        return export_obj(nativeExporter, path);
+        return export_obj(nativeExporter, path, fileName);
     }
 
     public string GetPath()

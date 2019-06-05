@@ -17,13 +17,5 @@ public class Test : MonoBehaviour
             c[i].y = 3;
             c[i].z = 4;
         }
-
-        Exporter exp = new Exporter();
-        if (!exp.Export("D:/UNIVERSIDAD/Unity/Tool-in-Unity/practice/projects/unity/Assets"))
-        {
-            Debug.Log("Log_: " + exp.GetLog());
-            Debug.Log("Noooo");
-
-        }
     }
 }

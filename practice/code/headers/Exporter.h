@@ -17,6 +17,7 @@ private:
 
 	std::string path;
 	std::string log;
+	std::string name;
 
 	std::vector<sh_Mesh> meshes;
 
@@ -27,7 +28,7 @@ public:
 
 public:
 
-	bool export_obj(std::string & path);
+	bool export_obj(std::string & path, std::string & name);
 
 	const std::string & get_path();
 	void set_path(const std::string & path);

@@ -13,9 +13,10 @@ Exporter::Exporter()
 
 }
 
-bool Exporter::export_obj(std::string & path)
+bool Exporter::export_obj(std::string & path, std::string & name)
 {
 	set_path(path);
+	this->name = name;
 
 	if (!generate_file())
 	{
@@ -73,8 +74,6 @@ bool Exporter::set_mesh_by_index(int index, Vector3f vertex[], Vector3f normals[
 
 void Exporter::set_meshes_count(int size)
 {
-	//meshes.clear();
-	//meshes.resize(size);
 	for (size_t i = 0; i < size; ++i)
 	{
 		std::shared_ptr<Mesh> new_mesh(new Mesh());
@@ -115,7 +114,7 @@ bool Exporter::generate_file()
 	//Generar archivu
 
 	std::ofstream archive;
-	archive.open(path + "/malla.obj");
+	archive.open(path + "/" + name + ".obj");
 	if (!archive) return false;
 	archive << file << std::endl;
 	archive.close();
