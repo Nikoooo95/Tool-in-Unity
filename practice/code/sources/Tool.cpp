@@ -42,17 +42,17 @@ namespace tool
 						if (layerName.empty())
 							return false;
 					}
-					std::shared_ptr<Layer> layer(new Layer(layerName));
+					std::shared_ptr<Layer2D> layer(new Layer2D(layerName));
 					if (!parseLayer(layerNode, layer))
 						return false;
-					gonicFile->addLayer(layerName, layer);
+					gonicFile->addLayer2d(layerName, layer);
 				}
 			}
 		}
 		return true;
 	}
 
-	bool Tool::parseLayer(xml_Node * layerNode, std::shared_ptr<Layer> layer) 
+	bool Tool::parseLayer(xml_Node * layerNode, std::shared_ptr<Layer2D> layer) 
 	{
 		std::string nameModel;
 		float height;
@@ -69,13 +69,12 @@ namespace tool
 
 						if (std::string(attribute->name()) == "height")
 							height = (float)atof(attribute->value());
-
 					}
 
 					if (nameModel.empty())
 						return false;
 
-					std::shared_ptr<Model2D> model(new Model2D(nameModel));
+					std::shared_ptr<Model2D> model(new Model2D(nameModel, height));
 					if (!parseModel(modelNode, model))
 						return false;
 
@@ -96,13 +95,10 @@ namespace tool
 					if(!parseVertex(componentNode, model))
 						return false;
 				}
-				else if (std::string(componentNode->name()) == "union")
-				{
-
-				}
 				else if (std::string(componentNode->name()) == "color")
 				{
-					
+					if (!parseColor(componentNode, model))
+						return false;
 				}
 			}
 		}
@@ -140,18 +136,19 @@ namespace tool
 		return true;
 	}
 
-	bool Tool::parseColor(xml_Node * colorNode, std::shared_ptr<Model2D> model) {
+	bool Tool::parseColor(xml_Node * colorNode, std::shared_ptr<Model2D> model) 
+	{
 		std::shared_ptr<Color> color(new Color());
 		std::string nameNode = colorNode->value();
 		size_t nComa = std::count(nameNode.begin(), nameNode.end(), ',');
 
-		std::vector<int> values;
+		std::vector<float> values;
 
 		for (size_t i = 0; i < nComa + 1; ++i)
 		{
 			size_t position;
 			position = nameNode.find(',');
-			values.push_back((int)std::stof(nameNode.substr(0, position)));
+			values.push_back(std::stof(nameNode.substr(0, position)));
 			nameNode.erase(0, position + 1);
 		}
 
@@ -161,6 +158,8 @@ namespace tool
 		return true;
 	}
 
+
+
 	const char* Tool::charToString(std::string dataValue) {
 		int lenStr = (int)dataValue.length() + 1;
 		char* answer = new char[lenStr];
@@ -168,5 +167,34 @@ namespace tool
 		strcpy_s(answer, lenStr, dataValue.c_str());
 		constAnswer = answer;
 		return constAnswer;
+	}
+
+	void Tool::generateLayer3d(int layer)
+	{
+		std::shared_ptr<Layer2D> layer2D = gonicFile->getLayer2D(layer);
+		std::shared_ptr<Layer3D> layer3D(new Layer3D(layer2D->getName()));
+		gonicFile->addLayer3d(layer3D->getName(), layer3D);
+	}
+
+	void Tool::transform2dTo3d(int layer, int model) {
+
+		std::shared_ptr<Layer3D> layer3D = gonicFile->getLayer3D(layer);
+
+		std::shared_ptr<Model2D> model2D = gonicFile->getModelInLayer2D(layer, model);
+		std::shared_ptr<Model3D> model3D(new Model3D(model2D->getName(), model2D->getHeight()));
+
+		model3D->setColor(model2D->getColor());
+
+		for (int i = 0; i < model2D->getVectorsAmount(); ++i)
+		{
+			std::shared_ptr<Vector2> v2 = model2D->getVector(i);
+			std::shared_ptr<Vector3> v3(new Vector3(v2->x, 0.0f, v2->y));
+			model3D->addVertex(v3);
+			v3.reset(new Vector3(v2->x, model3D->getHeight(), v2->y));
+			model3D->addVertex(v3);
+		}
+		
+		layer3D->addModel(model3D->getName(), model3D);
+		
 	}
 }

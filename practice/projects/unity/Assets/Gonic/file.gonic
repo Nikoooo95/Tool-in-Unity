@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <gonic>
 	<layer name="Layer_1">
-		<model name="Model_1" height="20">
+		<model name="Model_1" height="5">
 			<vertex>
 				<v>0,0</v>
 				<v>0,10</v>
@@ -9,7 +9,7 @@
 				<v>10,0</v>
 				<v>0,0</v>
 			</vertex>
-      <color>255,0,0</color>
+      <color>1,0.5,0.22</color>
 		</model>
 	</layer>
 </gonic>

@@ -21,25 +21,29 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\code\sources\Color.cpp" />
     <ClCompile Include="..\..\..\code\sources\Gonic.cpp" />
-    <ClCompile Include="..\..\..\code\sources\Layer.cpp" />
-    <ClCompile Include="..\..\..\code\sources\Model.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Layer2D.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Layer3D.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model2D.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Model3D.cpp" />
     <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp" />
     <ClCompile Include="..\..\..\code\sources\Tool.cpp" />
     <ClCompile Include="..\..\..\code\sources\Vector2.cpp" />
+    <ClCompile Include="..\..\..\code\sources\Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\code\headers\clike.h" />
     <ClInclude Include="..\..\..\code\headers\Color.hpp" />
     <ClInclude Include="..\..\..\code\headers\Gonic.hpp" />
     <ClInclude Include="..\..\..\code\headers\Layer.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Layer2D.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Layer3D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model2D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model3D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Tool.hpp" />
-    <ClInclude Include="..\..\..\code\headers\Vertex.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Union.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vector2.hpp" />
-    <ClInclude Include="..\..\..\code\headers\Vertex3D.hpp" />
+    <ClInclude Include="..\..\..\code\headers\Vector3.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="..\..\unity\Assets\file.xml" />
@@ -153,6 +157,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PreBuildEvent>
+      <Command>del /s/q "..\..\unity\Assets\Plugins\*.dll.meta*</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy "$(TargetPath)" "..\..\unity\Assets\Plugins\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

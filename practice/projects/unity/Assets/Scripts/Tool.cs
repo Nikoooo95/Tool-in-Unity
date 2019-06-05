@@ -13,6 +13,8 @@ public unsafe class Tool
     #region Native
     struct NativeTool { }
 
+    
+
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
     private static extern NativeTool* createTool();
 
@@ -20,13 +22,13 @@ public unsafe class Tool
     private static extern bool parseFile(NativeTool* tool, string path);
 
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int getLayersAmount(NativeTool* ptr);
+    private static extern int getLayers2dAmount(NativeTool* ptr);
 
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern IntPtr getLayerName(NativeTool* ptr, int layer);
+    private static extern IntPtr getLayer2dName(NativeTool* ptr, int layer);
 
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int getModelsInLayerAmount(NativeTool* ptr, int layer);
+    private static extern int getModelsInLayer2dAmount(NativeTool* ptr, int layer);
 
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
     private static extern IntPtr getModelNameInLayer(NativeTool* ptr, int layer, int model);
@@ -35,7 +37,20 @@ public unsafe class Tool
     private static extern int getVectorsAmount(NativeTool* ptr, int layer, int model);
 
     [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
-    private static extern int fillVectors(NativeTool* ptr, int layer, int model, Vector2[] vectors);
+    private static extern int fillVectors2d(NativeTool* ptr, int layer, int model, Vector2[] vectors);
+
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern int fillVectors3d(NativeTool* ptr, int layer, int model, Vector3[] vectors);
+
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void getColor(NativeTool* ptr, int layer, int model, Color* color);
+
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void generateLayer3d(NativeTool* ptr, int layer);
+
+    [DllImport("Tool", CallingConvention = CallingConvention.Cdecl)]
+    private static extern void transform2dTo3d(NativeTool* ptr, int layer, int model);
+    
 
     #endregion
 
@@ -54,25 +69,87 @@ public unsafe class Tool
 
     public void Load2D(bool looped)
     {
-        int layersAmount = getLayersAmount(nativePointer);
+        int layersAmount = getLayers2dAmount(nativePointer);
         for (int i = 0; i < layersAmount; ++i)
         {
             GameObject layer = new GameObject();
             layer.name = GetNameFromLayer(i);
             layer.tag = "Layer";
-            int modelsAmount = getModelsInLayerAmount(nativePointer, i);
+            int modelsAmount = getModelsInLayer2dAmount(nativePointer, i);
             for (int j = 0; j < modelsAmount; ++j)
             {
                 GameObject model = new GameObject();
                 model.name = GetNameFromModel(i, j);
                 model.transform.parent = layer.transform;
 
-                GenerateLineRenderer(model, GetPositions3D(i, j), looped);
+                Color col = Color.black;
+                Color* color = &col;
+                getColor(nativePointer, i, j, color);
+                GenerateLineRenderer(model, GetPositions3D(i, j), looped, color);
             }
         }
     }
 
-    void GenerateLineRenderer(GameObject model, Vector3[] positions, bool looped)
+    public void Load3D(bool looped)
+    {
+        int layersAmount = getLayers2dAmount(nativePointer);
+        for (int i = 0; i < layersAmount; ++i)
+        {
+            GameObject layer = GameObject.Find(GetNameFromLayer(i));
+            generateLayer3d(nativePointer, i);
+            int modelsAmount = getModelsInLayer2dAmount(nativePointer, i);
+            for (int j = 0; j < modelsAmount; ++j)
+            {
+                GameObject model = GameObject.Find(GetNameFromModel(i, j));
+
+                Color col = Color.black;
+                Debug.Log(col);
+                Color* color = &col;
+                getColor(nativePointer, i, j, color);
+                transform2dTo3d(nativePointer, i, j);
+                model.AddComponent<MeshFilter>();
+                model.AddComponent<MeshRenderer>();
+                //UnityEngine.Object.DestroyImmediate(model.GetComponent<LineRenderer>());
+                Mesh mesh = new Mesh();
+                mesh.Clear();
+                Vector3[] vertices = new Vector3[getVectorsAmount(nativePointer, i, j) * 2];
+                fillVectors3d(nativePointer, i, j, vertices);
+
+                mesh.vertices = vertices;
+                
+                int[] triangles = GenerateTriangles(getVectorsAmount(nativePointer, i, j) - 1);
+                mesh.triangles = triangles;
+                model.GetComponent<MeshFilter>().mesh = mesh;
+                // Debug.Log(col);
+
+                Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Color"));
+                whiteDiffuseMat.SetColor("_Color", *color);
+                model.GetComponent<MeshRenderer>().material = whiteDiffuseMat;
+            }
+        }
+    }
+
+    int[] GenerateTriangles(int trianglesAmount)
+    {
+        int[] triangles = new int[trianglesAmount * 3];
+
+        for(int i = 0, j = 0; i < triangles.Length; i+=6, j+=2)
+        {
+            triangles[i] = j;
+            triangles[i + 1] = j + 2;
+            triangles[i + 2] = j + 1;
+
+            triangles[i + 3] = j + 1;
+            triangles[i + 4] = j + 2;
+            triangles[i + 5] = j + 3;
+        }
+
+
+        return triangles;
+
+    }
+
+    void GenerateLineRenderer(GameObject model, Vector3[] positions, bool looped, Color* color)
     {
         LineRenderer line = model.AddComponent<LineRenderer>();
         line.positionCount = positions.Length;
@@ -80,7 +157,7 @@ public unsafe class Tool
         line.startWidth = 0.25f;
         line.endWidth = 0.25f;
         Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Color"));
-        whiteDiffuseMat.SetColor("_Color", Color.green);
+        whiteDiffuseMat.SetColor("_Color", *color);
         line.material = whiteDiffuseMat;
         line.loop = looped;
     }
@@ -88,7 +165,7 @@ public unsafe class Tool
     Vector3[] GetPositions3D(int layer, int model)
     {
         Vector2[] positions2D = new Vector2[getVectorsAmount(nativePointer, layer, model)];
-        fillVectors(nativePointer, layer, model, positions2D);
+        fillVectors2d(nativePointer, layer, model, positions2D);
         Vector3[] positions3D = new Vector3[positions2D.Length];
         ConvertVector(positions3D, positions2D);
         return positions3D;
@@ -96,7 +173,7 @@ public unsafe class Tool
 
     string GetNameFromLayer(int layer)
     {
-        var ptr = getLayerName(nativePointer, layer);
+        var ptr = getLayer2dName(nativePointer, layer);
         return Marshal.PtrToStringAnsi(ptr);
     }
 

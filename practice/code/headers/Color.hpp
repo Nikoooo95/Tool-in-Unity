@@ -7,14 +7,14 @@ namespace tool
 	struct Color 
 	{
 	public:
-		int r;
-		int g;
-		int b;
+		float r;
+		float g;
+		float b;
 
 	public:
-		Color(int r = 0, int g = 0, int b = 0);
+		Color(float r = 0, float g = 0, float b = 0);
 		Color(const Color& other);
-		void set(int r, int g, int b);
+		void set(float r, float g, float b);
 		Color operator=(const Color &);
 
 	

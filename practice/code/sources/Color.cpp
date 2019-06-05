@@ -2,7 +2,7 @@
 
 namespace tool {
 
-	Color::Color(int newR, int newG, int newB) :
+	Color::Color(float newR, float newG, float newB) :
 		r(newR), g(newG), b(newB)
 	{
 
@@ -14,7 +14,7 @@ namespace tool {
 
 	}
 
-	void Color::set(int newR, int newG, int newB)
+	void Color::set(float newR, float newG, float newB)
 		
 	{
 		r = newR;

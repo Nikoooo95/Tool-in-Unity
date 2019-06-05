@@ -3,22 +3,18 @@
 namespace tool 
 {
 
-	Vector2::Vector2(float _x, float _y) :
-		x(_x), y(_y)
-	{
-
-	}
+	Vector2::Vector2(float x_, float y_) :
+		x(x_), y(y_)
+	{}
 
 	Vector2::Vector2(const Vector2& other) :
 		x(other.x), y(other.y)
-	{
+	{}
 
-	}
-
-	void Vector2::set(float _x, float _y)
+	void Vector2::set(float x_, float y_)
 	{
-		x = _x;
-		y = _y;
+		x = x_;
+		y = y_;
 	}
 
 	Vector2 Vector2::operator=(const Vector2 & other) 

@@ -1,5 +1,5 @@
-#ifndef VERTEX_2D_HEADER
-#define VERTEX_2D_HEADER
+#ifndef VECTOR2_HEADER
+#define VECTOR2_HEADER
 #include "Vertex.hpp"
 namespace tool 
 {
@@ -22,4 +22,4 @@ namespace tool
 	};
 }
 
-#endif // !VERTEX_2D_HEADER
+#endif // !VECTOR2_HEADER

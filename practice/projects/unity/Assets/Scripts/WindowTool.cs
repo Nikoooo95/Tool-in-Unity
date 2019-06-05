@@ -11,7 +11,8 @@ public class WindowTool : EditorWindow
 
     private GameObject[] layers;
     bool parsed = false;
-    bool generated = false;
+    bool generated2D = false;
+    bool generated3D = false;
     bool looped = false;
 	
     Tool tool;
@@ -57,17 +58,9 @@ public class WindowTool : EditorWindow
 
         }
 
-        EditorGUI.BeginDisabledGroup(!parsed);
+        
 
-        if (GUILayout.Button("Load 2D"))
-        {
-            tool.Load2D(looped);
-            generated = true;
-        }
-
-        EditorGUI.EndDisabledGroup();
-
-        EditorGUI.BeginDisabledGroup(!generated);
+        EditorGUI.BeginDisabledGroup(!generated2D);
         if (GUILayout.Button("Clean All From Scene"))
         {
             if (EditorUtility.DisplayDialog("Are you sure?",
@@ -77,26 +70,68 @@ public class WindowTool : EditorWindow
             {
                 tool.Clean2D();
                 parsed = false;
-                generated = false;
+                generated2D = false;
+                generated3D = false;
             }
                
         }
         EditorGUI.EndDisabledGroup();
 
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
 
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
-        EditorGUILayout.BeginVertical(EditorStyles.helpBox); //Declaring our first part of our layout, and adding a bit of flare with EditorStyles.
+        GUILayout.Label("2D", EditorStyles.boldLabel);
+        EditorGUI.BeginDisabledGroup(!parsed);
 
-        GUILayout.Label("2D", EditorStyles.boldLabel); //Making a label in our vertical view, declaring its contents, and adding editor flare.
+        if (GUILayout.Button("Load 2D"))
+        {
+            tool.Load2D(looped);
+            generated2D = true;
+        }
+
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.BeginDisabledGroup(!generated2D);
         savePath = EditorGUILayout.TextField("Path", savePath);
-
-        EditorGUI.BeginDisabledGroup(!generated);
         if (GUILayout.Button("Save as Prefab"))
         {
             tool.SaveAsPrefab2D(savePath);
            
         }
         EditorGUI.EndDisabledGroup();
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        GUILayout.Label("3D", EditorStyles.boldLabel);
+        EditorGUI.BeginDisabledGroup(!parsed);
+
+        if (GUILayout.Button("Load 3D"))
+        {
+            tool.Load3D(looped);
+            generated3D = true;
+        }
+
+        EditorGUI.EndDisabledGroup();
+
+        EditorGUI.BeginDisabledGroup(!generated3D);
+        savePath = EditorGUILayout.TextField("Path", savePath);
+        if (GUILayout.Button("Save as Prefab"))
+        {
+           // tool.SaveAsPrefab2D(savePath);
+
+        }
+        EditorGUI.EndDisabledGroup();
+        EditorGUILayout.EndVertical();
+
+
 
     }
 
