@@ -4,22 +4,59 @@ using System.Runtime.InteropServices;
 
 public class WindowTool : EditorWindow
 {
+    /// <summary>
+    /// The path where the .gonic file is stored.
+    /// </summary>
     string loadPath = "Assets\\Gonic\\file.gonic";
+
+    /// <summary>
+    /// The path where the 3D prefab will be stored.
+    /// </summary>
     string savePath = "Assets/Prefabs/";
+
+    /// <summary>
+    /// The optional settings. True if are enabled.
+    /// </summary>
     bool optionalSettings;
 
-
-    private GameObject[] layers;
+    /// <summary>
+    /// True if the .gonic file has been parsed.
+    /// </summary>
     bool parsed = false;
+
+    /// <summary>
+    /// True if the 2D model has been generated.
+    /// </summary>
     bool generated2D = false;
+
+    /// <summary>
+    /// True if the 3D model has been generated.
+    /// </summary>
     bool generated3D = false;
+
+    /// <summary>
+    /// True if the user wants to have the back faces.
+    /// </summary>
     bool backFaces = false;
+
+    /// <summary>
+    /// True if the user wants to have the shapes looped.
+    /// </summary>
     bool looped = false;
+
+    /// <summary>
+    /// True if the user wants to keep visible the Line Renderers
+    /// </summary>
     bool keepLineRenderer = true;
 	
+    /// <summary>
+    /// The tool in C#
+    /// </summary>
     Tool tool;
 
-
+    /// <summary>
+    /// Determinates where the user can open the Tool and shows the window
+    /// </summary>
     [MenuItem("Window/Tools/Gonic Tool")]
     static void Init()
     {
@@ -27,46 +64,51 @@ public class WindowTool : EditorWindow
         window.Show();
     }
 
+    /// <summary>
+    /// Shows all the UI of the Tool for the user
+    /// </summary>
     private void OnGUI()
     {
+        ///Base Settings - Path
         GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         loadPath = EditorGUILayout.TextField("Path", loadPath);
+
         EditorGUILayout.Space();
+
+        ///Optional Settings - Looped | Keep Line Render | Back Faces
         optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
 
         looped = EditorGUILayout.Toggle("Loop ", looped);
         keepLineRenderer = EditorGUILayout.Toggle("Keep Line Renderer in 3D", keepLineRenderer);
         backFaces = EditorGUILayout.Toggle("Show back faces", backFaces);
+
         EditorGUILayout.EndToggleGroup();
 
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+
+        ///Space where the user can Parse the .gonic file
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
         GUILayout.Label("Parse / Delete", EditorStyles.boldLabel);
-
-        if (GUILayout.Button("Read File"))
+        if (GUILayout.Button("Read .gonic File"))
         {
-
             if (!CheckPath())
             {
                 parsed = false;
                 return;
             }
-                
 
+            ///Creates the Tool and start to parse the file
             EditorUtility.DisplayProgressBar("Tool", "Parsing...", 0);
             tool = new Tool(loadPath);
             EditorUtility.DisplayProgressBar("Tool", "Parsing...", 100);
             EditorUtility.ClearProgressBar();
             parsed = true;
-
         }
-
         EditorGUILayout.EndVertical();
         
-
+        ///To delete all the .gonic files of the Unity Scene that have been generated
         EditorGUI.BeginDisabledGroup(!parsed);
         if (GUILayout.Button("Clean All From Scene"))
         {
@@ -88,10 +130,14 @@ public class WindowTool : EditorWindow
         }
         EditorGUI.EndDisabledGroup();
 
+
+
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
+
+        ///2D Space to generate basics forms from the .gonic file
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
         GUILayout.Label("2D", EditorStyles.boldLabel);
@@ -107,12 +153,17 @@ public class WindowTool : EditorWindow
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndVertical();
 
+
+
+
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
+
+
+        ///3D Space  to generate the models from the 2D models
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
         GUILayout.Label("3D", EditorStyles.boldLabel);
         EditorGUI.BeginDisabledGroup(!generated2D);
 
@@ -121,16 +172,18 @@ public class WindowTool : EditorWindow
             tool.Load3D(looped, keepLineRenderer, backFaces);
             generated3D = true;
         }
-
         EditorGUI.EndDisabledGroup();
-
         EditorGUILayout.EndVertical();
 
+
+
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
 
 
+
+        ///Space to save all the .gonic stuff as Prefab. Also saves the Meshes and the Materials
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
         GUILayout.Label("Save", EditorStyles.boldLabel);
         EditorGUI.BeginDisabledGroup(!generated3D);
@@ -143,10 +196,12 @@ public class WindowTool : EditorWindow
         EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndVertical();
 
-
-
     }
 
+    /// <summary>
+    /// Checks if the load Path exists
+    /// </summary>
+    /// <returns></returns>
     private bool CheckPath()
     {
         if (!System.IO.File.Exists(System.IO.Directory.GetCurrentDirectory() + "\\" + loadPath))
@@ -172,6 +227,11 @@ public class WindowTool : EditorWindow
         return true;
     }
 
+    /// <summary>
+    /// Creates a .gonic file empty
+    /// </summary>
+    /// <param name="loadPath"></param>
+    /// <returns></returns>
     private bool CreateFile(string loadPath)
     {
         if (System.IO.Path.GetExtension(loadPath) == ".gonic")

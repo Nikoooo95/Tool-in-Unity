@@ -16,10 +16,10 @@ public unsafe class Tool
     #region Native
     struct NativeTool { }
 
-    //ALL THE METHODS THAT FOLLOW ARE WRITTEN IN CAMELCASE BECAUSE ARE C++ METHODS
-    //I KNOW THAT METHODS IN C# MUST BE IN PASCALCASE, BUT I THINK THAT SHOULD BE BETTER
-    //TO KEEP THE METHODS OF C++ IN CAMELCASE INSTEAD OF MAKE THESE METHODS IN PASCALCASE 
-    
+    ///ALL THE METHODS THAT FOLLOW ARE WRITTEN IN CAMELCASE BECAUSE ARE C++ METHODS
+    ///I KNOW THAT METHODS IN C# MUST BE IN PASCALCASE, BUT I THINK THAT SHOULD BE BETTER
+    ///TO KEEP THE METHODS OF C++ IN CAMELCASE INSTEAD OF MAKE THESE METHODS IN PASCALCASE 
+
     /// <summary>
     /// Calls the constructor of the C++ Tool
     /// </summary>
@@ -174,24 +174,24 @@ public unsafe class Tool
         int layersAmount = getLayers2dAmount(nativePointer);
         for (int i = 0; i < layersAmount; ++i)
         {
-            //Creates an objet per layer
+            ///Creates an objet per layer
             GameObject layer = new GameObject();
             layer.name = GetNameFromLayer(i);
             layer.tag = "Layer";
             int modelsAmount = getModelsInLayer2dAmount(nativePointer, i);
             for (int j = 0; j < modelsAmount; ++j)
             {
-                //Creates an object per model and makes child of the layer
+                ///Creates an object per model and makes child of the layer
                 GameObject model = new GameObject();
                 model.name = GetNameFromModel(i, j);
                 model.transform.parent = layer.transform;
 
-                //Gets the color of the 2D model of C++
+                ///Gets the color of the 2D model of C++
                 Color col = Color.black;
                 Color* color = &col;
                 getColor(nativePointer, i, j, color);
 
-                //Generates the Line Render
+                ///Generates the Line Render
                 GenerateLineRenderer(model, GetPositions3D(i, j), looped, color);
             }
         }
@@ -208,47 +208,47 @@ public unsafe class Tool
         int layersAmount = getLayers2dAmount(nativePointer);
         for (int i = 0; i < layersAmount; ++i)
         {
-            //Gets the layer previously created
+            ///Gets the layer previously created
             GameObject layer = GameObject.Find(GetNameFromLayer(i));
             generateLayer3d(nativePointer, i);
             int modelsAmount = getModelsInLayer2dAmount(nativePointer, i);
 
             for (int j = 0; j < modelsAmount; ++j)
             {
-                //Gets the gameOject of the model previously created
+                ///Gets the gameOject of the model previously created
                 GameObject model = GameObject.Find(GetNameFromModel(i, j));
 
-                //Generates the new 3D model
+                ///Generates the new 3D model
                 transform2dTo3d(nativePointer, i, j);
 
-                //Add a MeshFilter
-                if(model.GetComponent<MeshFilter>() == null)
+                ///Add a MeshFilter
+                if (model.GetComponent<MeshFilter>() == null)
                     model.AddComponent<MeshFilter>();
 
-                //Add a Mesh Renderer
+                ///Add a Mesh Renderer
                 if (model.GetComponent<MeshRenderer>() == null)
                     model.AddComponent<MeshRenderer>();
 
-                //Enable / Disable Line Renderer of the Model gameObject
-                if(!keepLineRenderer)
+                ///Enable / Disable Line Renderer of the Model gameObject
+                if (!keepLineRenderer)
                     model.GetComponent<LineRenderer>().enabled = false;
                 else
                     model.GetComponent<LineRenderer>().enabled = true;
 
-                //Set the loop of the LineRenderer
+                ///Set the loop of the LineRenderer
                 model.GetComponent<LineRenderer>().loop = looped;
 
-                //Sets the Mesh properties
+                ///Sets the Mesh properties
                 Mesh mesh = new Mesh();
                 mesh.Clear();
 
-                //Vertex
+                ///Vertex
                 Vector3[] vertices = new Vector3[getVectorsAmount(nativePointer, i, j) * 2];
                 fillVectors3d(nativePointer, i, j, vertices);
 
                 mesh.vertices = vertices;
 
-                //Triangles
+                ///Triangles
                 int[] triangles;
                 if(!looped)
                 {
@@ -260,10 +260,10 @@ public unsafe class Tool
                 }
                 mesh.triangles = triangles;
 
-                //Sets the mesh into the GameObject
+                ///Sets the mesh into the GameObject
                 model.GetComponent<MeshFilter>().mesh = mesh;
 
-                //Sets the color and the Material
+                ///Sets the color and the Material
                 Color col = Color.black;
                 Color* color = &col;
                 getColor(nativePointer, i, j, color);
@@ -284,11 +284,11 @@ public unsafe class Tool
     int[] GenerateTriangles(int trianglesAmount, bool backFaces, bool looped)
     {
         int[] triangles;
-        //If is looped, has to add 2 vertex more
+        ///If is looped, has to add 2 vertex more
         if (looped)
             trianglesAmount += 2;
 
-        //Here it is calculated the real number of the triangles will have the model
+        ///Here it is calculated the real number of the triangles will have the model
         if (backFaces)
             trianglesAmount *= 6;
         else
@@ -296,7 +296,7 @@ public unsafe class Tool
 
         triangles = new int[trianglesAmount];
 
-        //The triangles are calculated in the dll
+        ///The triangles are calculated in the dll
         generateTriangles(nativePointer, triangles, trianglesAmount, backFaces, looped);
 
         return triangles;
@@ -314,17 +314,17 @@ public unsafe class Tool
         LineRenderer line = model.AddComponent<LineRenderer>();
         line.positionCount = positions.Length;
 
-        //Add the possitions
+        ///Add the positions
         line.SetPositions(positions);
         line.startWidth = 0.25f;
         line.endWidth = 0.25f;
 
-        //Add the color
+        ///Add the color
         Material whiteDiffuseMat = new Material(Shader.Find("Unlit/Color"));
         whiteDiffuseMat.SetColor("_Color", *color);
         line.material = whiteDiffuseMat;
 
-        //Makes the loop
+        ///Makes the loop
         line.loop = looped;
     }
 
@@ -403,18 +403,18 @@ public unsafe class Tool
             for (int i = 0; i < gameObject.transform.childCount; ++i)
             {
                 GameObject child = gameObject.transform.GetChild(i).gameObject;
-                
-                //Saves the Material from the Liner Renderer
-                if(child.GetComponent<LineRenderer>() != null)
+
+                ///Saves the Material from the Liner Renderer
+                if (child.GetComponent<LineRenderer>() != null)
                     SaveMaterial(child.GetComponent<LineRenderer>().sharedMaterial, "LineRenderer" + child.name);
 
-                //Saves the Material from the Mesh
+                ///Saves the Material from the Mesh
                 SaveMaterial(child.GetComponent<MeshRenderer>().sharedMaterial, "Mesh"+child.name);
-                //Saves the Mesh
+                ///Saves the Mesh
                 SaveMesh(child.GetComponent<MeshFilter>().sharedMesh, child.name);
             }
 
-            //Saves the Prefab
+            ///Saves the Prefab
             SaveAsPrefab(gameObject, savePath);
         }
 
@@ -427,6 +427,7 @@ public unsafe class Tool
     /// <param name="name">Name of the Material</param>
     private void SaveMaterial(Material mat, string name)
     {
+        ///First checks the path. Create it if it does not exist.
         if (!Directory.Exists("Assets/Materials"))
         {
             Directory.CreateDirectory("Assets/Materials");
@@ -446,6 +447,7 @@ public unsafe class Tool
     /// <param name="name">Name of the Mesh</param>
     private void SaveMesh(Mesh mesh, string name)
     {
+        ///First checks the path. Create it if it does not exist.
         if (!Directory.Exists("Assets/Meshes"))
         {
             Directory.CreateDirectory("Assets/Meshes");
@@ -468,7 +470,7 @@ public unsafe class Tool
     private void SaveAsPrefab(GameObject gameObject, string path)
     {
 
-        //First, checks the path. Creates it if it does not exist.
+        ///First, checks the path. Creates it if it does not exist.
         if (!Directory.Exists(path))
         {
             if (EditorUtility.DisplayDialog("Warning",
@@ -484,10 +486,10 @@ public unsafe class Tool
             }
         }
 
-        //Saves the prefab in the path
+        ///Saves the prefab in the path
         if (AssetDatabase.LoadAssetAtPath(path + gameObject.name + ".prefab", typeof(GameObject)))
         {
-            //Checks if a prefab with the same name exists in that path
+            ///Checks if a prefab with the same name exists in that path
             if (EditorUtility.DisplayDialog("Are you sure?",
                 "The Prefab already exists in the path " + path + gameObject.name + ".prefab. Do you want to overwrite it?",
                 "Yes",
