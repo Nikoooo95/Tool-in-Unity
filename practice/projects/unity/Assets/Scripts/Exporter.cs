@@ -7,6 +7,11 @@ using UnityEditor;
 
 public unsafe class Exporter
 {
+    //WRAPPER
+
+
+    //Comunicacion con la DLL
+    //Aqui se incluyen las funciones de llamada a la DLL
     #region Native
     struct NativeExporter { }
 
@@ -45,26 +50,41 @@ public unsafe class Exporter
 
     #endregion
 
+    //Exportador
     NativeExporter* nativeExporter;
 
+    //Indica si se debe exportar toda la escena
     public bool allScene = false;
+    //Nombre del archivo que se va a crear
     public string name = "scene";
 
     #region API friendly
+    /// <summary>
+    /// Constructor del exportador
+    /// </summary>
     public Exporter()
     {
         nativeExporter = create();
     }
-
+    /// <summary>
+    /// Destructor del exportador
+    /// </summary>
     ~Exporter()
     {
         destroy(nativeExporter);
     }
-
-
+    
+    /// <summary>
+    /// Exporta los elementos seleccionados a un archivo obj
+    /// </summary>
+    /// <param name="path">Ruta en la que se va a crear el archivo .obj</param>
+    /// <param name="fileName">Nombre del archivo .obj</param>
+    /// <returns></returns>
     public bool Export(string path, string fileName)
     {
+        
         //-----------------------------------------------------------------------
+        //Seleccion de mallas
         List<MeshFilter> meshesList = new List<MeshFilter>();
 
         if(allScene)
@@ -82,9 +102,7 @@ public unsafe class Exporter
                     meshesList.Add(gameobject.GetComponent<MeshFilter>());
             }
         }
-
-
-
+        
         if (meshesList.Count == 0)
         {
             Debug.Log("Ninguna malla seleccionada");
@@ -94,7 +112,7 @@ public unsafe class Exporter
         MeshFilter[] meshes = meshesList.ToArray();
 
         //------------------------------------------------------------------------
-
+        //Comprobacion de que las mallas no sean parte del static batch/batching
         if (Application.isPlaying)
         {
             foreach (MeshFilter filter in meshes)
@@ -108,7 +126,7 @@ public unsafe class Exporter
             }
         }
         //------------------------------------------------------------------------
-        Debug.Log("0 " + meshes.Length);
+        //Paso de elemenos necesarios para la exportacion
         set_meshes_count(nativeExporter, meshes.Length);
 
         for (int i = 0; i < meshes.Length; ++i)
@@ -118,36 +136,39 @@ public unsafe class Exporter
             
             if (!set_mesh_transform(nativeExporter, i, meshes[i].transform.position, meshes[i].transform.rotation.eulerAngles, meshes[i].transform.lossyScale))
                 return false;
-            Debug.Log("1");
 
             if (!set_mesh_by_index(nativeExporter, i, meshes[i].sharedMesh.vertices, meshes[i].sharedMesh.normals, meshes[i].sharedMesh.uv, meshes[i].sharedMesh.vertices.Length, meshes[i].sharedMesh.normals.Length, meshes[i].sharedMesh.uv.Length))
                 return false;
-            Debug.Log("2");
 
             if (!set_mesh_submeshes_count(nativeExporter, i, meshes[i].sharedMesh.subMeshCount))
                 return false;
-            Debug.Log("3");
 
             for (int j = 0; j < meshes[i].sharedMesh.subMeshCount; ++j)
             {
                 if (!set_submesh_triangles(nativeExporter, i, j, meshes[i].sharedMesh.GetTriangles(j), meshes[i].sharedMesh.GetTriangles(j).Length))
                     return false;
-                Debug.Log("4");
 
             }
         }
-
-        Debug.Log("Todo ok");
+        
+        //Exportacion. Creacion del archivo
         return export_obj(nativeExporter, path, fileName);
     }
 
+    /// <summary>
+    /// Devuelve la actual ruta de destino
+    /// </summary>
+    /// <returns></returns>
     public string GetPath()
     {
         var ptr = get_path(nativeExporter);
         string back = Marshal.PtrToStringAnsi(ptr);
         return back;
     }
-
+    /// <summary>
+    /// Devuelve el Log de error
+    /// </summary>
+    /// <returns></returns>
     public string GetLog()
     {
         var ptr = get_log(nativeExporter);

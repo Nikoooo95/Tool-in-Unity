@@ -7,7 +7,14 @@ using System;
 
 public class WindowTool : EditorWindow
 {
+    /// <summary>
+    /// Exportador 
+    /// </summary>
     Exporter exporterTool;
+
+    /// <summary>
+    /// Estructura que recoge los ajustes de la herramienta
+    /// </summary>
     struct Settings
     {
         public string path;
@@ -15,22 +22,35 @@ public class WindowTool : EditorWindow
         public bool allScene;
     };
 
+    /// <summary>
+    /// Ajustes de la herramienta
+    /// </summary>
     static Settings toolSettings;
 
+    /// <summary>
+    /// Cantidad de mallas seleccionadas a exportar
+    /// </summary>
     private int objectsCount;
 
+    /// <summary>
+    /// Inicializa la ventana
+    /// </summary>
     [MenuItem("Window/Tools/OBJ Expoter")]
     static void Init()
     {
         WindowTool tool = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
+        tool.titleContent.text = "OBJ Exporter";
+        tool.titleContent.image = (Texture2D)AssetDatabase.LoadAssetAtPath("Assets/Textures/tool-icon.png", typeof(Texture2D));
         tool.Show();
         toolSettings.allScene = false;
         toolSettings.name = "scene";
         toolSettings.path = "D:/UNIVERSIDAD/Unity/Tool-in-Unity/practice/projects/unity/Assets/";
-
         
     }
 
+    /// <summary>
+    /// Gestion de la ventana
+    /// </summary>
     private void OnGUI()
     {
 
@@ -46,6 +66,7 @@ public class WindowTool : EditorWindow
 
         if (GUILayout.Button("Export"))
         {
+            EditorUtility.DisplayProgressBar("Exporting...", "Taking meshes from the scene", 1);
             if (GetSelected() == 0)
             {
                 EditorUtility.DisplayDialog("ERROR", "It have to be selected almost one object to export. " +
@@ -54,22 +75,47 @@ public class WindowTool : EditorWindow
                 return;
             }
 
+            EditorUtility.DisplayProgressBar("Exporting...", "Checking directory", 40);
 
             if (CheckPath() && CheckName())
             {
+                EditorUtility.DisplayProgressBar("Exporting...", "Setting the tool", 60);
+
                 exporterTool = new Exporter();
 
                 exporterTool.allScene = toolSettings.allScene;
                 exporterTool.name = toolSettings.name;
+                EditorUtility.DisplayProgressBar("Exporting...", "Creating the file", 80);
                 if (!exporterTool.Export(toolSettings.path, toolSettings.name))
                 {
-                    Debug.Log("Error: " + exporterTool.GetLog());
-                    EditorUtility.DisplayDialog("ERROR", "Export error: " + exporterTool.GetLog(), "Close");
+                    EditorUtility.DisplayProgressBar("Exporting...", "Creating the file", 99);
+
+                    //Debug.Log("Error: " + exporterTool.GetLog());
+                    if(EditorUtility.DisplayDialog("ERROR", "Export error: " + exporterTool.GetLog(), "Close"))
+                    {
+                        EditorUtility.ClearProgressBar();
+                    }
+                }
+                else
+                {
+                    EditorUtility.DisplayProgressBar("Exporting...", "Completed!", 100);
+
+
+                    if(EditorUtility.DisplayDialog("Done!!", "It has been created and .obj file named " + exporterTool.name + 
+                        " that containts " + GetSelected() + " meshes at the directory " + toolSettings.path +".", "Close"))
+                    {
+                        EditorUtility.ClearProgressBar();
+                    }
+
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Return the number of selected meshes
+    /// </summary>
+    /// <returns></returns>
     private int GetSelected()
     {
         int count = 0;
@@ -89,14 +135,19 @@ public class WindowTool : EditorWindow
         return count;
     }
 
+    /// <summary>
+    /// Check that the path is valid
+    /// </summary>
+    /// <returns></returns>
     private bool CheckPath()
     {
+        //Comprobacion de que no esta vacio
         if(toolSettings.path.Length == 0)
         {
             EditorUtility.DisplayDialog("ERROR", "The path field can not be empty.", "Close");
             return false;
         }
-
+        //Comprueba si existe la ruta
         if(!System.IO.Directory.Exists(toolSettings.path))
         {
             if(EditorUtility.DisplayDialog("ERROR", "The current directory is not valid", "Create directory", "Close"))
@@ -109,7 +160,7 @@ public class WindowTool : EditorWindow
                 return false;
             }
         }
-
+        //Comprueba si la ruta acaba con /
         if(toolSettings.path[toolSettings.path.Length -1] != '/')
         {
             EditorUtility.DisplayDialog("ERROR", "The directory has to end to the character '/'. Please check it and try again.", "Close");
@@ -119,14 +170,19 @@ public class WindowTool : EditorWindow
         return true;
     }
 
+    /// <summary>
+    /// Check that the name is a valid name
+    /// </summary>
+    /// <returns></returns>
     private bool CheckName()
     {
+        //Comrpeuba que no es un nombre vacio
         if(toolSettings.name.Length == 0)
         {
             EditorUtility.DisplayDialog("ERROR", "The name field can not be empty.", "Close");
             return false;
         }
-
+        //Comprueba que no existe actualmente el archivo
         if(System.IO.File.Exists(toolSettings.path + toolSettings.name + ".obj"))
         {
             EditorUtility.DisplayDialog("ERROR", "There is already an object with that name in the directory. Please, delete the file or change the name", "Close");
