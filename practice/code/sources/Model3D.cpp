@@ -16,4 +16,19 @@ namespace tool
 		}
 	}
 
+	void Model3D::generateTriangles(int amount)
+	{
+		int trianglesAmount = amount * 3;
+		for (int i = 0; i < trianglesAmount; i += 2)
+		{
+			triangles.push_back(i);
+			triangles.push_back(i + 2);
+			triangles.push_back(i + 1);
+
+			triangles.push_back(i + 1);
+			triangles.push_back(i + 2);
+			triangles.push_back(i + 3);
+		}
+	}
+
 }

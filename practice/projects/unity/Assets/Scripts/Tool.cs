@@ -90,7 +90,7 @@ public unsafe class Tool
         }
     }
 
-    public void Load3D(bool looped)
+    public void Load3D(bool looped, bool keepLineRenderer, bool backFaces)
     {
         int layersAmount = getLayers2dAmount(nativePointer);
         for (int i = 0; i < layersAmount; ++i)
@@ -103,21 +103,39 @@ public unsafe class Tool
                 GameObject model = GameObject.Find(GetNameFromModel(i, j));
 
                 Color col = Color.black;
-                Debug.Log(col);
                 Color* color = &col;
                 getColor(nativePointer, i, j, color);
                 transform2dTo3d(nativePointer, i, j);
-                model.AddComponent<MeshFilter>();
-                model.AddComponent<MeshRenderer>();
-                //UnityEngine.Object.DestroyImmediate(model.GetComponent<LineRenderer>());
+                if(model.GetComponent<MeshFilter>() == null)
+                    model.AddComponent<MeshFilter>();
+
+                if (model.GetComponent<MeshRenderer>() == null)
+                    model.AddComponent<MeshRenderer>();
+
+                if(!keepLineRenderer)
+                    model.GetComponent<LineRenderer>().enabled = false;
+                else
+                    model.GetComponent<LineRenderer>().enabled = true;
+
+                model.GetComponent<LineRenderer>().loop = looped;
                 Mesh mesh = new Mesh();
                 mesh.Clear();
                 Vector3[] vertices = new Vector3[getVectorsAmount(nativePointer, i, j) * 2];
                 fillVectors3d(nativePointer, i, j, vertices);
 
                 mesh.vertices = vertices;
+
+                int[] triangles;
+                if(!looped)
+                {
+                   triangles = GenerateTriangles(getVectorsAmount(nativePointer, i, j) * 2 - 2, backFaces, looped);
+                }
+                else
+                {
+                    triangles = GenerateTriangles(getVectorsAmount(nativePointer, i, j) * 2 - 2, backFaces, looped);
+                }
                 
-                int[] triangles = GenerateTriangles(getVectorsAmount(nativePointer, i, j) - 1);
+                //Debug.Log(triangles.Length);
                 mesh.triangles = triangles;
                 model.GetComponent<MeshFilter>().mesh = mesh;
                 // Debug.Log(col);
@@ -129,20 +147,80 @@ public unsafe class Tool
         }
     }
 
-    int[] GenerateTriangles(int trianglesAmount)
+    int[] GenerateTriangles(int trianglesAmount, bool backFaces, bool looped)
     {
-        int[] triangles = new int[trianglesAmount * 3];
+        int[] triangles;// = new int[trianglesAmount * 3];
+        if (looped)
+            trianglesAmount += 2;
 
-        for(int i = 0, j = 0; i < triangles.Length; i+=6, j+=2)
+        if (backFaces)
+            trianglesAmount *= 6;
+        else
+            trianglesAmount *= 3;
+
+
+        triangles = new int[trianglesAmount];
+
+        if (looped)
+            trianglesAmount -= 2;
+
+        for (int i = 0, j = 0; i < trianglesAmount; i+=6, j+=2)
         {
-            triangles[i] = j;
+            triangles[i] = j;           //
             triangles[i + 1] = j + 2;
             triangles[i + 2] = j + 1;
 
             triangles[i + 3] = j + 1;
             triangles[i + 4] = j + 2;
             triangles[i + 5] = j + 3;
+            if (backFaces)
+            {
+                triangles[i + 6] = j + 1;
+                triangles[i + 7] = j + 2;
+                triangles[i + 8] = j;
+
+                triangles[i + 9] = j + 1;
+                triangles[i + 10] = j + 3;
+                triangles[i + 11] = j + 2;
+                i += 6;
+
+            }
         }
+
+        if(looped)
+        {
+            if (!backFaces)
+            {
+
+                triangles[triangles.Length - 6] = triangles[triangles.Length - 8];
+                triangles[triangles.Length - 5] = triangles[0];
+                triangles[triangles.Length - 4] = triangles[triangles.Length - 7];
+
+                triangles[triangles.Length - 3] = triangles[triangles.Length - 7];
+                triangles[triangles.Length - 2] = triangles[0];
+                triangles[triangles.Length - 1] = triangles[2];
+            }
+            else
+            {
+                triangles[triangles.Length - 12] = triangles[triangles.Length - 20];  //10
+                triangles[triangles.Length - 11] = triangles[0];                      //0
+                triangles[triangles.Length - 10] = triangles[triangles.Length - 19]; //11
+
+                triangles[triangles.Length - 9] = triangles[triangles.Length - 19];  //11
+                triangles[triangles.Length - 8] = triangles[0];                     //0
+                triangles[triangles.Length - 7] = triangles[2];                         //1
+
+                triangles[triangles.Length - 6] = triangles[triangles.Length - 9]; //
+                triangles[triangles.Length - 5] = triangles[0];
+                triangles[triangles.Length - 4] = triangles[triangles.Length - 12];
+
+                triangles[triangles.Length - 3] = triangles[triangles.Length - 9];
+                triangles[triangles.Length - 2] = triangles[2];
+                triangles[triangles.Length - 1] = triangles[0];
+            }
+        }
+            
+
 
 
         return triangles;
@@ -191,7 +269,7 @@ public unsafe class Tool
         }
     }
 
-    public void Clean2D()
+    public void Clean()
     {
         GameObject [] gameObjects = GameObject.FindGameObjectsWithTag("Layer");
         foreach(GameObject gameObject in gameObjects)

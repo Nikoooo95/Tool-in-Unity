@@ -3,13 +3,40 @@
 	<layer name="Layer_1">
 		<model name="Model_1" height="5">
 			<vertex>
-				<v>0,0</v>
-				<v>0,10</v>
-				<v>10,10</v>
-				<v>10,0</v>
-				<v>0,0</v>
+				<v>6,-10</v>
+				<v>16,-8</v>
+				<v>22,-16</v>
+				<v>7,-32</v>
+				<v>0,-20</v>
 			</vertex>
-      <color>1,0.5,0.22</color>
+			<color>1,0.5,0.22</color>
+		</model>
+		<model name="Model_2" height="7">
+			<vertex>
+				<v>1,23</v>
+				<v>12,26</v>
+				<v>20,22</v>
+				<v>33,16</v>
+				<v>40,-6</v>
+				<v>39,-30</v>
+				<v>19,-56</v>
+				<v>-34,-38</v>
+				<v>-68,20</v>
+				<v>-14,16</v>
+			</vertex>
+			<color>0.38,0.12,0.61</color>
+		</model>
+	</layer>
+	<layer name="Layer_2">
+		<model name="Model_3" height="5">
+			<vertex>
+				<v>-22,5</v>
+				<v>-29,-7</v>
+				<v>-42,-6</v>
+				<v>-33,12</v>
+				<v>-24,8</v>
+			</vertex>
+			<color>0.8,0.41,0.54</color>
 		</model>
 	</layer>
 </gonic>

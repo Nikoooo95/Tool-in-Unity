@@ -10,6 +10,7 @@ namespace tool
 	{
 	private:
 		std::vector<std::shared_ptr<Vector3>> vertex;
+		std::vector<int> triangles;
 
 	public:
 		Model3D(std::string name_, float height_) : Model(name_, height_){}
@@ -17,6 +18,7 @@ namespace tool
 	public:
 		void addVertex(std::shared_ptr<Vector3> vert);
 		void fillVectors(Vector3 vectors[]);
+		void generateTriangles(int trianglesAmount);
 
 	public:
 		

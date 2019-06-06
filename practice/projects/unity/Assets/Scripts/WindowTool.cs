@@ -13,7 +13,9 @@ public class WindowTool : EditorWindow
     bool parsed = false;
     bool generated2D = false;
     bool generated3D = false;
+    bool backFaces = false;
     bool looped = false;
+    bool keepLineRenderer = false;
 	
     Tool tool;
 
@@ -21,8 +23,8 @@ public class WindowTool : EditorWindow
     [MenuItem("Tools/My New Tool")]
     static void Init()
     {
-        WindowTool tool = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
-        tool.Show();
+        WindowTool window = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
+        window.Show();
     }
 
     private void OnGUI()
@@ -33,6 +35,8 @@ public class WindowTool : EditorWindow
         optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
 
         looped = EditorGUILayout.Toggle("Loop ", looped);
+        keepLineRenderer = EditorGUILayout.Toggle("Keep Line Renderer in 3D", keepLineRenderer);
+        backFaces = EditorGUILayout.Toggle("Show back faces", backFaces);
         EditorGUILayout.EndToggleGroup();
 
         EditorGUILayout.Space();
@@ -60,7 +64,7 @@ public class WindowTool : EditorWindow
 
         
 
-        EditorGUI.BeginDisabledGroup(!generated2D);
+        EditorGUI.BeginDisabledGroup(!parsed);
         if (GUILayout.Button("Clean All From Scene"))
         {
             if (EditorUtility.DisplayDialog("Are you sure?",
@@ -68,7 +72,7 @@ public class WindowTool : EditorWindow
                     "Yes",
                     "No"))
             {
-                tool.Clean2D();
+                tool.Clean();
                 parsed = false;
                 generated2D = false;
                 generated3D = false;
@@ -88,6 +92,7 @@ public class WindowTool : EditorWindow
 
         if (GUILayout.Button("Load 2D"))
         {
+            tool.Clean();
             tool.Load2D(looped);
             generated2D = true;
         }
@@ -111,11 +116,11 @@ public class WindowTool : EditorWindow
         EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
         GUILayout.Label("3D", EditorStyles.boldLabel);
-        EditorGUI.BeginDisabledGroup(!parsed);
+        EditorGUI.BeginDisabledGroup(!generated2D);
 
         if (GUILayout.Button("Load 3D"))
         {
-            tool.Load3D(looped);
+            tool.Load3D(looped, keepLineRenderer, backFaces);
             generated3D = true;
         }
 
