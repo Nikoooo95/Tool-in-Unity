@@ -83,7 +83,7 @@ namespace tool
 		void generateLayer3d(int layer);
 
 		void transform2dTo3d(int layer, int model);
-		
+		void generateTriangles(int triangles[], int amount, bool backFaces, bool looped);
 	};
 }
 

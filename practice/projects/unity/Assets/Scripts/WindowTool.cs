@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 public class WindowTool : EditorWindow
 {
-    string loadPath = System.IO.Directory.GetCurrentDirectory() + "\\Assets\\Gonic\\file.gonic";
+    string loadPath = "Assets\\Gonic\\file.gonic";
     string savePath = "Assets/Prefabs/";
     bool optionalSettings;
 
@@ -15,12 +15,12 @@ public class WindowTool : EditorWindow
     bool generated3D = false;
     bool backFaces = false;
     bool looped = false;
-    bool keepLineRenderer = false;
+    bool keepLineRenderer = true;
 	
     Tool tool;
 
 
-    [MenuItem("Tools/My New Tool")]
+    [MenuItem("Window/Tools/Gonic Tool")]
     static void Init()
     {
         WindowTool window = (WindowTool)EditorWindow.GetWindow(typeof(WindowTool));
@@ -31,7 +31,7 @@ public class WindowTool : EditorWindow
     {
         GUILayout.Label("Base Settings", EditorStyles.boldLabel);
         loadPath = EditorGUILayout.TextField("Path", loadPath);
-
+        EditorGUILayout.Space();
         optionalSettings = EditorGUILayout.BeginToggleGroup("Optional Settings", optionalSettings);
 
         looped = EditorGUILayout.Toggle("Loop ", looped);
@@ -42,7 +42,9 @@ public class WindowTool : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
-        EditorGUILayout.LabelField("Buttons");
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+
+        GUILayout.Label("Parse / Delete", EditorStyles.boldLabel);
 
         if (GUILayout.Button("Read File"))
         {
@@ -62,6 +64,7 @@ public class WindowTool : EditorWindow
 
         }
 
+        EditorGUILayout.EndVertical();
         
 
         EditorGUI.BeginDisabledGroup(!parsed);
@@ -72,7 +75,11 @@ public class WindowTool : EditorWindow
                     "Yes",
                     "No"))
             {
-                tool.Clean();
+                if(tool != null)
+                {
+                    tool.Clean();
+                }
+                
                 parsed = false;
                 generated2D = false;
                 generated3D = false;
@@ -98,15 +105,6 @@ public class WindowTool : EditorWindow
         }
 
         EditorGUI.EndDisabledGroup();
-
-        EditorGUI.BeginDisabledGroup(!generated2D);
-        savePath = EditorGUILayout.TextField("Path", savePath);
-        if (GUILayout.Button("Save as Prefab"))
-        {
-            tool.SaveAsPrefab2D(savePath);
-           
-        }
-        EditorGUI.EndDisabledGroup();
         EditorGUILayout.EndVertical();
 
         EditorGUILayout.Space();
@@ -126,11 +124,20 @@ public class WindowTool : EditorWindow
 
         EditorGUI.EndDisabledGroup();
 
+        EditorGUILayout.EndVertical();
+
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
+
+        EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+        GUILayout.Label("Save", EditorStyles.boldLabel);
         EditorGUI.BeginDisabledGroup(!generated3D);
         savePath = EditorGUILayout.TextField("Path", savePath);
         if (GUILayout.Button("Save as Prefab"))
         {
-           // tool.SaveAsPrefab2D(savePath);
+            tool.SavePrefab3D(savePath);
 
         }
         EditorGUI.EndDisabledGroup();
@@ -142,7 +149,7 @@ public class WindowTool : EditorWindow
 
     private bool CheckPath()
     {
-        if (!System.IO.File.Exists(loadPath))
+        if (!System.IO.File.Exists(System.IO.Directory.GetCurrentDirectory() + "\\" + loadPath))
         {
             if (EditorUtility.DisplayDialog("Warning",
                     "The directory is not valid. Do you want to create it?",

@@ -197,4 +197,67 @@ namespace tool
 		layer3D->addModel(model3D->getName(), model3D);
 		
 	}
+
+	void Tool::generateTriangles(int triangles[], int amount, bool backFaces, bool looped)
+	{
+		if (looped)
+			amount -= 2;
+
+		for (int i = 0, j = 0; i < amount; i += 6, j += 2)
+		{
+			triangles[i] = j;           //
+			triangles[i + 1] = j + 2;
+			triangles[i + 2] = j + 1;
+
+			triangles[i + 3] = j + 1;
+			triangles[i + 4] = j + 2;
+			triangles[i + 5] = j + 3;
+			if (backFaces)
+			{
+				triangles[i + 6] = j + 1;
+				triangles[i + 7] = j + 2;
+				triangles[i + 8] = j;
+
+				triangles[i + 9] = j + 1;
+				triangles[i + 10] = j + 3;
+				triangles[i + 11] = j + 2;
+				i += 6;
+
+			}
+		}
+
+		if (looped)
+		{
+			amount += 2;
+			if (!backFaces)
+			{
+
+				triangles[amount - 6] = triangles[amount - 8];
+				triangles[amount - 5] = triangles[0];
+				triangles[amount - 4] = triangles[amount - 7];
+
+				triangles[amount - 3] = triangles[amount - 7];
+				triangles[amount - 2] = triangles[0];
+				triangles[amount - 1] = triangles[2];
+			}
+			else
+			{
+				triangles[amount - 12] = triangles[amount - 20];  //10
+				triangles[amount - 11] = triangles[0];                      //0
+				triangles[amount - 10] = triangles[amount - 19]; //11
+
+				triangles[amount - 9] = triangles[amount - 19];  //11
+				triangles[amount - 8] = triangles[0];                     //0
+				triangles[amount - 7] = triangles[2];                         //1
+
+				triangles[amount - 6] = triangles[amount - 9]; //
+				triangles[amount - 5] = triangles[0];
+				triangles[amount - 4] = triangles[amount - 12];
+
+				triangles[amount - 3] = triangles[amount - 9];
+				triangles[amount - 2] = triangles[2];
+				triangles[amount - 1] = triangles[0];
+			}
+		}
+	}
 }

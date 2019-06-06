@@ -18,7 +18,6 @@ namespace tool
 	public:
 		void addVertex(std::shared_ptr<Vector3> vert);
 		void fillVectors(Vector3 vectors[]);
-		void generateTriangles(int trianglesAmount);
 
 	public:
 		

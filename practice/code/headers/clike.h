@@ -72,3 +72,8 @@ extern "C" __declspec(dllexport)
 void transform2dTo3d(Tool* tool, int layer, int model) {
 	tool->transform2dTo3d(layer, model);
 }
+
+extern "C" __declspec(dllexport)
+void generateTriangles(Tool* tool, int triangles[], int amount, bool backFaces, bool looped) {
+	tool->generateTriangles(triangles, amount, backFaces, looped);
+}
