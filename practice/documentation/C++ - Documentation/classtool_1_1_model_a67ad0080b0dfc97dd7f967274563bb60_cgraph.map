@@ -1,0 +1,4 @@
+<map id="tool::Model::modifyColor" name="tool::Model::modifyColor">
+<area shape="rect" id="node1" title="Modifies the color of the model." alt="" coords="5,5,168,32"/>
+<area shape="rect" id="node2" href="$structtool_1_1_color.html#a70113958d45c8ce5109f8f81196534b4" title="Sets the color values." alt="" coords="216,5,323,32"/>
+</map>

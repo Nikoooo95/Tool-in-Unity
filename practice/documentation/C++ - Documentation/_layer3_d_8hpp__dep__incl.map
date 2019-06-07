@@ -1,0 +1,7 @@
+<map id="Layer3D.hpp" name="Layer3D.hpp">
+<area shape="rect" id="node1" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="5,5,100,32"/>
+<area shape="rect" id="node2" href="$_gonic_8hpp.html" title="Gonic file. Contains all the 2D layers and 3D layers of a gonic file." alt="" coords="12,80,93,107"/>
+<area shape="rect" id="node3" href="$_tool_8hpp.html" title="Tool class. It is the main class and the most important. Contains all the use of the Tool and the DLL..." alt="" coords="17,155,88,181"/>
+<area shape="rect" id="node4" href="$clike_8h.html" title="Class for the comunication between C# and the DLL." alt="" coords="23,229,83,256"/>
+<area shape="rect" id="node5" href="$stdafx_8h.html" title=" " alt="" coords="19,304,87,331"/>
+</map>

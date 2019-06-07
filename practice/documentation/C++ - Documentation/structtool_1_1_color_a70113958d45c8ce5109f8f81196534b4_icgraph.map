@@ -1,0 +1,4 @@
+<map id="tool::Color::set" name="tool::Color::set">
+<area shape="rect" id="node1" title="Sets the color values." alt="" coords="216,5,323,32"/>
+<area shape="rect" id="node2" href="$classtool_1_1_model.html#a67ad0080b0dfc97dd7f967274563bb60" title="Modifies the color of the model." alt="" coords="5,5,168,32"/>
+</map>

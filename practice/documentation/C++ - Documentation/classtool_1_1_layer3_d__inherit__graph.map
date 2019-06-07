@@ -1,0 +1,4 @@
+<map id="tool::Layer3D" name="tool::Layer3D">
+<area shape="rect" id="node1" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="5,160,169,325"/>
+<area shape="rect" id="node2" href="$classtool_1_1_layer.html" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="40,5,135,112"/>
+</map>

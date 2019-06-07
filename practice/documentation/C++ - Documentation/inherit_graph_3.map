@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classtool_1_1_model.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="5,31,92,57"/>
+<area shape="rect" id="node2" href="$classtool_1_1_model2_d.html" title="Model 2D. Contains all the info a 2D model from gonic file." alt="" coords="140,5,243,32"/>
+<area shape="rect" id="node3" href="$classtool_1_1_model3_d.html" title="Model 3D. A transformation of the Model 2D." alt="" coords="140,56,243,83"/>
+</map>

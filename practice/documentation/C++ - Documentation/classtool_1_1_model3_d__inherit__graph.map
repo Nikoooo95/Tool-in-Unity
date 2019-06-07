@@ -1,0 +1,4 @@
+<map id="tool::Model3D" name="tool::Model3D">
+<area shape="rect" id="node1" title="Model 3D. A transformation of the Model 2D." alt="" coords="5,233,156,355"/>
+<area shape="rect" id="node2" href="$classtool_1_1_model.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="5,5,156,185"/>
+</map>

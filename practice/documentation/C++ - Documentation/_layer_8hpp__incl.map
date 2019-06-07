@@ -1,0 +1,12 @@
+<map id="Layer.hpp" name="Layer.hpp">
+<area shape="rect" id="node1" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="93,5,172,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,52,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="63,229,117,256"/>
+<area shape="rect" id="node4" href="$_model2_d_8hpp.html" title="Model 2D. Contains all the info a 2D model from gonic file." alt="" coords="127,80,226,107"/>
+<area shape="rect" id="node10" href="$_model3_d_8hpp.html" title="Model 3D. A transformation of the Model 2D." alt="" coords="250,80,349,107"/>
+<area shape="rect" id="node5" href="$_model_8hpp.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="219,155,302,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="142,229,198,256"/>
+<area shape="rect" id="node7" href="$_color_8hpp.html" title="A basic struct class for Color." alt="" coords="222,229,299,256"/>
+<area shape="rect" id="node8" href="$_vector2_8hpp.html" title="A basic struct class for Vector2." alt="" coords="324,229,416,256"/>
+<area shape="rect" id="node9" href="$_vector3_8hpp.html" title="A basic struct class for Vector3." alt="" coords="440,229,532,256"/>
+</map>

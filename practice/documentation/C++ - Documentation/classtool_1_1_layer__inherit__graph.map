@@ -1,0 +1,5 @@
+<map id="tool::Layer" name="tool::Layer">
+<area shape="rect" id="node1" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="132,5,227,112"/>
+<area shape="rect" id="node2" href="$classtool_1_1_layer2_d.html" title="Layer class. Contains all the 2D models from a Gonic file." alt="" coords="5,160,167,340"/>
+<area shape="rect" id="node3" href="$classtool_1_1_layer3_d.html" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="191,167,355,333"/>
+</map>

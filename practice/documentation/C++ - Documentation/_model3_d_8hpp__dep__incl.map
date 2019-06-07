@@ -1,0 +1,10 @@
+<map id="Model3D.hpp" name="Model3D.hpp">
+<area shape="rect" id="node1" title="Model 3D. A transformation of the Model 2D." alt="" coords="34,5,133,32"/>
+<area shape="rect" id="node2" href="$_layer_8hpp.html" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="44,80,123,107"/>
+<area shape="rect" id="node3" href="$_tool_8hpp.html" title="Tool class. It is the main class and the most important. Contains all the use of the Tool and the DLL..." alt="" coords="5,304,76,331"/>
+<area shape="rect" id="node6" href="$_layer2_d_8hpp.html" title="Layer class. Contains all the 2D models from a Gonic file." alt="" coords="36,155,131,181"/>
+<area shape="rect" id="node8" href="$_layer3_d_8hpp.html" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="155,155,249,181"/>
+<area shape="rect" id="node4" href="$clike_8h.html" title="Class for the comunication between C# and the DLL." alt="" coords="11,379,71,405"/>
+<area shape="rect" id="node5" href="$stdafx_8h.html" title=" " alt="" coords="7,453,75,480"/>
+<area shape="rect" id="node7" href="$_gonic_8hpp.html" title="Gonic file. Contains all the 2D layers and 3D layers of a gonic file." alt="" coords="43,229,124,256"/>
+</map>

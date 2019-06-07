@@ -1,0 +1,9 @@
+<map id="Model2D.hpp" name="Model2D.hpp">
+<area shape="rect" id="node1" title="Model 2D. Contains all the info a 2D model from gonic file." alt="" coords="154,5,253,32"/>
+<area shape="rect" id="node2" href="$_model_8hpp.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="162,80,245,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,60,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="85,155,141,181"/>
+<area shape="rect" id="node5" href="$_color_8hpp.html" title="A basic struct class for Color." alt="" coords="165,155,242,181"/>
+<area shape="rect" id="node6" href="$_vector2_8hpp.html" title="A basic struct class for Vector2." alt="" coords="267,155,359,181"/>
+<area shape="rect" id="node7" href="$_vector3_8hpp.html" title="A basic struct class for Vector3." alt="" coords="383,155,475,181"/>
+</map>

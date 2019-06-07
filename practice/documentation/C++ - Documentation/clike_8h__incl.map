@@ -1,0 +1,21 @@
+<map id="clike.h" name="clike.h">
+<area shape="rect" id="node1" title="Class for the comunication between C# and the DLL." alt="" coords="413,5,473,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="66,528,121,555"/>
+<area shape="rect" id="node3" title=" " alt="" coords="455,80,527,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="551,80,612,107"/>
+<area shape="rect" id="node5" href="$_tool_8hpp.html" title="Tool class. It is the main class and the most important. Contains all the use of the Tool and the DLL..." alt="" coords="359,80,430,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="144,155,240,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="265,155,330,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="648,528,704,555"/>
+<area shape="rect" id="node9" href="$_model_8hpp.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="411,453,493,480"/>
+<area shape="rect" id="node10" href="$_color_8hpp.html" title="A basic struct class for Color." alt="" coords="429,528,507,555"/>
+<area shape="rect" id="node11" href="$_vector2_8hpp.html" title="A basic struct class for Vector2." alt="" coords="531,528,623,555"/>
+<area shape="rect" id="node13" href="$_layer_8hpp.html" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="230,304,309,331"/>
+<area shape="rect" id="node15" href="$_model2_d_8hpp.html" title="Model 2D. Contains all the info a 2D model from gonic file." alt="" coords="388,379,487,405"/>
+<area shape="rect" id="node17" href="$_gonic_8hpp.html" title="Gonic file. Contains all the 2D layers and 3D layers of a gonic file." alt="" coords="354,155,435,181"/>
+<area shape="rect" id="node12" href="$_vector3_8hpp.html" title="A basic struct class for Vector3." alt="" coords="313,528,405,555"/>
+<area shape="rect" id="node14" title=" " alt="" coords="194,379,241,405"/>
+<area shape="rect" id="node16" href="$_model3_d_8hpp.html" title="Model 3D. A transformation of the Model 2D." alt="" coords="265,379,364,405"/>
+<area shape="rect" id="node18" href="$_layer2_d_8hpp.html" title="Layer class. Contains all the 2D models from a Gonic file." alt="" coords="341,229,435,256"/>
+<area shape="rect" id="node19" href="$_layer3_d_8hpp.html" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="222,229,317,256"/>
+</map>

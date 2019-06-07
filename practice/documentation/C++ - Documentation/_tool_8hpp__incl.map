@@ -1,0 +1,18 @@
+<map id="Tool.hpp" name="Tool.hpp">
+<area shape="rect" id="node1" title="Tool class. It is the main class and the most important. Contains all the use of the Tool and the DLL..." alt="" coords="308,5,379,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="710,453,764,480"/>
+<area shape="rect" id="node3" title=" " alt="" coords="44,80,140,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="164,80,230,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="64,453,120,480"/>
+<area shape="rect" id="node6" href="$_model_8hpp.html" title="Model class. From it inherits the Model2D and Model3D." alt="" coords="385,379,468,405"/>
+<area shape="rect" id="node7" href="$_color_8hpp.html" title="A basic struct class for Color." alt="" coords="229,453,306,480"/>
+<area shape="rect" id="node8" href="$_vector2_8hpp.html" title="A basic struct class for Vector2." alt="" coords="331,453,423,480"/>
+<area shape="rect" id="node10" href="$_layer_8hpp.html" title="Layer class. From it inherits the Layer 2D and Layer 3D&#45;." alt="" coords="584,229,663,256"/>
+<area shape="rect" id="node12" href="$_model2_d_8hpp.html" title="Model 2D. Contains all the info a 2D model from gonic file." alt="" coords="406,304,505,331"/>
+<area shape="rect" id="node14" href="$_gonic_8hpp.html" title="Gonic file. Contains all the 2D layers and 3D layers of a gonic file." alt="" coords="464,80,546,107"/>
+<area shape="rect" id="node9" href="$_vector3_8hpp.html" title="A basic struct class for Vector3." alt="" coords="447,453,539,480"/>
+<area shape="rect" id="node11" title=" " alt="" coords="652,304,699,331"/>
+<area shape="rect" id="node13" href="$_model3_d_8hpp.html" title="Model 3D. A transformation of the Model 2D." alt="" coords="529,304,628,331"/>
+<area shape="rect" id="node15" href="$_layer2_d_8hpp.html" title="Layer class. Contains all the 2D models from a Gonic file." alt="" coords="576,155,671,181"/>
+<area shape="rect" id="node16" href="$_layer3_d_8hpp.html" title="Layer 3D class. Contains all the stuff in 3D which comes from a Layer2D." alt="" coords="458,155,552,181"/>
+</map>
