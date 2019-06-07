@@ -44,7 +44,7 @@ public class WindowTool : EditorWindow
         tool.Show();
         toolSettings.allScene = false;
         toolSettings.name = "scene";
-        toolSettings.path = "D:/UNIVERSIDAD/Unity/Tool-in-Unity/practice/projects/unity/Assets/";
+        toolSettings.path = "Example: D:/Documents/Unity/projects/unity-project/Assets/";
         
     }
 

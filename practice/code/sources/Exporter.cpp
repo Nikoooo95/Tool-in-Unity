@@ -111,8 +111,6 @@ bool Exporter::generate_file()
 	 
 	if (file == "") return false;
 
-	//Generar archivu
-
 	std::ofstream archive;
 	archive.open(path + "/" + name + ".obj");
 	if (!archive) return false;

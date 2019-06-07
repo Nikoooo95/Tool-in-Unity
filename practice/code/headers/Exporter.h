@@ -1,3 +1,14 @@
+/**
+ * @file Exporter.h
+ * @author Gonzalo Perez Chamarro (Gonzalo1810 GitHub.com)
+ * @brief Clase exportador
+ * @version 0.1
+ * @date 2019-06-07
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #pragma once
 
 #include "Mesh.h"
@@ -15,15 +26,41 @@ class Exporter
 private:
 	typedef std::shared_ptr<Mesh> sh_Mesh;
 
+	/**
+	 * @brief Ruta de exportacion
+	 * 
+	 */
 	std::string path;
+
+	/**
+	 * @brief Mensajes de error
+	 * 
+	 */
 	std::string log;
+
+	/**
+	 * @brief Nombre del archivo
+	 * 
+	 */
 	std::string name;
 
+	/**
+	 * @brief Conjunto de mallas que se van a exportar
+	 * 
+	 */
 	std::vector<sh_Mesh> meshes;
 
 public:
+	/**
+	 * @brief Construye el exportador
+	 * 
+	 */
 	Exporter();
 
+	/**
+	 * @brief Destructor
+	 * 
+	 */
 	~Exporter() = default;
 
 public:

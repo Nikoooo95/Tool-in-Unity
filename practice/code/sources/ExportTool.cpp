@@ -44,8 +44,6 @@ const char* get_log(Exporter * exporter)
 	return exporter->get_log().c_str();
 }
 
-//add mesh
-
 extern "C" __declspec(dllexport)
 bool set_mesh_transform(Exporter * exporter, int index, Vector3f position, Vector3f rotation, Vector3f scale)
 {
