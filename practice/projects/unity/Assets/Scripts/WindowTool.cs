@@ -2,6 +2,10 @@
 using UnityEditor;
 using System.Runtime.InteropServices;
 
+/// <summary>
+/// The Window Tool class is the User Interface which the user can see.
+/// Also, manages all the buttons and know what it has to do to make the tool works.
+/// </summary>
 public class WindowTool : EditorWindow
 {
     /// <summary>

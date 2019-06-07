@@ -25,7 +25,6 @@
     <ClCompile Include="..\..\..\code\sources\Layer3D.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model2D.cpp" />
     <ClCompile Include="..\..\..\code\sources\Model3D.cpp" />
-    <ClCompile Include="..\..\..\code\sources\SimplexNoise.cpp" />
     <ClCompile Include="..\..\..\code\sources\Tool.cpp" />
     <ClCompile Include="..\..\..\code\sources\Vector2.cpp" />
     <ClCompile Include="..\..\..\code\sources\Vector3.cpp" />
@@ -41,7 +40,6 @@
     <ClInclude Include="..\..\..\code\headers\Model2D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Model3D.hpp" />
     <ClInclude Include="..\..\..\code\headers\Tool.hpp" />
-    <ClInclude Include="..\..\..\code\headers\Union.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vector2.hpp" />
     <ClInclude Include="..\..\..\code\headers\Vector3.hpp" />
   </ItemGroup>
