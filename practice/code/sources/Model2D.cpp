@@ -8,11 +8,11 @@ namespace tool
 		vertex.push_back(vert);
 	}
 
-	void Model2D::fillVectors(Vector2 _vectors[]) 
+	void Model2D::fillVectors(Vector2 vectors[]) 
 	{
 		for (int i = 0; i < getVectorsAmount(); ++i)
 		{
-			_vectors[i].set(vertex[i]->x, vertex[i]->y);
+			vectors[i].set(vertex[i]->x, vertex[i]->y);
 		}
 	}
 }

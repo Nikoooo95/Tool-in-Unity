@@ -1,6 +1,7 @@
 #include "Tool.hpp"
 #include "Layer.hpp"
 #include <stdlib.h>
+#include "stdafx.h"
 
 namespace tool 
 {
@@ -8,6 +9,7 @@ namespace tool
 	{
 		xml_document<> doc;
 
+		//Just start to read the document as a XML
 		using std::ifstream;
 		ifstream xmlFile(path);
 		std::vector<char> buffer((std::istreambuf_iterator<char>(xmlFile)), std::istreambuf_iterator<char>());
@@ -32,6 +34,7 @@ namespace tool
 		{
 			if (layerNode->type() == node_element) 
 			{
+				//When finds the layer...
 				if (std::string(layerNode->name()) == "layer") 
 				{
 					for (xml_Attribute * attribute = layerNode->first_attribute(); attribute; attribute = attribute->next_attribute()) 
@@ -60,6 +63,7 @@ namespace tool
 		{
 			if (modelNode->type() == node_element) 
 			{
+				//When finds a model in the layer...
 				if (std::string(modelNode->name()) == "model")
 				{
 					for (xml_Attribute * attribute = modelNode->first_attribute(); attribute; attribute = attribute->next_attribute()) 
@@ -90,11 +94,12 @@ namespace tool
 		for (xml_Node * componentNode = modelNode->first_node(); componentNode; componentNode = componentNode->next_sibling()) {
 			if (componentNode->type() == node_element) 
 			{
+				//When finds a vertex in the model...
 				if (std::string(componentNode->name()) == "vertex")
 				{
 					if(!parseVertex(componentNode, model))
 						return false;
-				}
+				}//When finds a color in the model...
 				else if (std::string(componentNode->name()) == "color")
 				{
 					if (!parseColor(componentNode, model))
@@ -114,6 +119,7 @@ namespace tool
 			nameNode = vertNode->value();
 			if (vertNode->type() == node_element) 
 			{
+				//Parsing of each vertex
 				if (std::string(vertNode->name()) == "v") 
 				{
 					std::shared_ptr<Vector2> vertex(new Vector2());
@@ -205,7 +211,7 @@ namespace tool
 
 		for (int i = 0, j = 0; i < amount; i += 6, j += 2)
 		{
-			triangles[i] = j;           //
+			triangles[i] = j; 
 			triangles[i + 1] = j + 2;
 			triangles[i + 2] = j + 1;
 
@@ -242,15 +248,15 @@ namespace tool
 			}
 			else
 			{
-				triangles[amount - 12] = triangles[amount - 20];  //10
-				triangles[amount - 11] = triangles[0];                      //0
-				triangles[amount - 10] = triangles[amount - 19]; //11
+				triangles[amount - 12] = triangles[amount - 20];
+				triangles[amount - 11] = triangles[0];
+				triangles[amount - 10] = triangles[amount - 19];
 
-				triangles[amount - 9] = triangles[amount - 19];  //11
-				triangles[amount - 8] = triangles[0];                     //0
-				triangles[amount - 7] = triangles[2];                         //1
+				triangles[amount - 9] = triangles[amount - 19];
+				triangles[amount - 8] = triangles[0];
+				triangles[amount - 7] = triangles[2];
 
-				triangles[amount - 6] = triangles[amount - 9]; //
+				triangles[amount - 6] = triangles[amount - 9];
 				triangles[amount - 5] = triangles[0];
 				triangles[amount - 4] = triangles[amount - 12];
 
