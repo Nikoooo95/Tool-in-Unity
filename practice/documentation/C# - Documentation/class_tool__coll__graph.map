@@ -1,0 +1,3 @@
+<map id="Tool" name="Tool">
+<area shape="rect" id="node1" title="DLL Wrapper. Contains the basics functions and comunicates with the DLL. It calls to some methods of ..." alt="" coords="5,5,128,141"/>
+</map>
