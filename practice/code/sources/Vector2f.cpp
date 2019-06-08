@@ -16,7 +16,7 @@ namespace mathexp
 	{
 		return  x == other.x && y == other.y;
 	}
-	void Vector2f::set(float new_x, float new_y, float new_z)
+	void Vector2f::set(float new_x, float new_y)
 	{
 		x = new_x;
 		y = new_y;
